@@ -1,6 +1,6 @@
 package com.mytools.views;
 
-import com.mytools.db.ConfiguracionArchivo;
+import com.mytools.utils.ConfiguracionArchivo;
 import com.mytools.ilib.Dashboard;
 import com.mytools.swings.JComponents.BotonColor;
 import com.mytools.swings.JComponents.BotonMenu;

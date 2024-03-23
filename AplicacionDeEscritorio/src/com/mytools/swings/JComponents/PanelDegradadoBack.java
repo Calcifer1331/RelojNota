@@ -1,7 +1,7 @@
 package com.mytools.swings.JComponents;
 
 
-import com.mytools.db.ConfiguracionArchivo;
+import com.mytools.utils.ConfiguracionArchivo;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;

@@ -5,7 +5,7 @@
 package com.mytools.swings.JComponents;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import com.mytools.db.ConfiguracionArchivo;
+import com.mytools.utils.ConfiguracionArchivo;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -60,7 +60,7 @@ public class BotonMenu extends JButton {
         repaint();
     }
 
-    private static final int MAX_ICON_SIZE = 25; // Tamaño máximo del icono en píxeles
+    private static final int MAX_ICON_SIZE = 30; // Tamaño máximo del icono en píxeles
 
     public int getOpacidad() {
         return opacidad;

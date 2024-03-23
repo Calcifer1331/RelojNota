@@ -5,7 +5,7 @@
 package com.mytools.swings.JComponents;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import com.mytools.db.ConfiguracionArchivo;
+import com.mytools.utils.ConfiguracionArchivo;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;

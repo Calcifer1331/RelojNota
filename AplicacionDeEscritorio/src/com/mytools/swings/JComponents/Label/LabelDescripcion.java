@@ -3,7 +3,7 @@ package com.mytools.swings.JComponents.Label;
 
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import com.mytools.db.ConfiguracionArchivo;
+import com.mytools.utils.ConfiguracionArchivo;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JLabel;

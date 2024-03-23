@@ -6,6 +6,7 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.mytools.views.Configuracion;
 import com.mytools.views.Inicio;
 import java.awt.BorderLayout;
+import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.SQLException;
@@ -28,12 +29,13 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void Init() {
         botonMenuConfiguracion.setSvgImage("resource/IconMenu/Settings.svg");
+        botonMenuConfgReloj.setSvgImage("resource/IconMenu/reloj.svg");
+        botonMenuHome.setSvgImage("resource/IconMenu/Home.svg");
         try {
-            ShoJPanel(new Inicio());
+            SelectorMenu(new Inicio(), 1);
         } catch (Exception ex) {
             Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
         }
-        toggleMenu();
     }
 
     public static void ShoJPanel(JPanel p) {
@@ -44,34 +46,40 @@ public class Dashboard extends javax.swing.JFrame {
         content.repaint();
     }
 
-    private void toggleMenu() {
-        // Cambiar la visibilidad del menú
-        menu.setVisible(!menu.isVisible());
-        showMenu.setIcon(setSVG(menu.isVisible() ? "resource/chevron-left-solid.svg" : "resource/chevron-right-solid.svg"));
-        revalidate();
-        repaint();
-    }
-
-    private FlatSVGIcon setSVG(String img) {
-        svgIcon = new FlatSVGIcon(img, 13, 20);
-        return svgIcon;
-    }
-
     private void SelectorMenu(JPanel Pagina, int indice) {
         // Deseleccionar todos los botones
         botonMenuConfiguracion.setSelecionado(false);
+        botonMenuConfgReloj.setSelecionado(false);
+        botonMenuHome.setSelecionado(false);
+        
 
         // Seleccionar el botón específico
         switch (indice) {
-
+            case 1:
+                botonMenuHome.setSelecionado(true);
+                break;
+            case 2:
+                botonMenuConfiguracion.setSelecionado(true);
+                break;
+            case 3:
+                botonMenuConfgReloj.setSelecionado(true);
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
             case 10:
-                botonMenuConfiguracion.setSelecionado(true);
-                botonMenuConfiguracion.setSelecionado(true);
+
                 break;
             default:
 
         }
         ShoJPanel(Pagina);
+    }
+
+    private FlatSVGIcon setSVG(String img) {
+        svgIcon = new FlatSVGIcon(img, 13, 20);
+        return svgIcon;
     }
 
     @SuppressWarnings("unchecked")
@@ -80,10 +88,11 @@ public class Dashboard extends javax.swing.JFrame {
 
         panelDegradadoBack1 = new com.mytools.swings.JComponents.PanelDegradadoBack();
         botonMenuConfiguracion = new com.mytools.swings.JComponents.BotonMenu();
-        showMenu = new javax.swing.JLabel();
         scrollPanelTransparente1 = new com.mytools.swings.JComponents.ScrollPanelTransparente();
         content = new javax.swing.JPanel();
-        menu = new com.mytools.swings.JComponents.PanelDegradado();
+        panelDegradado1 = new com.mytools.swings.JComponents.PanelDegradado();
+        botonMenuConfgReloj = new com.mytools.swings.JComponents.BotonMenu();
+        botonMenuHome = new com.mytools.swings.JComponents.BotonMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -95,18 +104,6 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        showMenu.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                showMenuMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                showMenuMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                showMenuMousePressed(evt);
-            }
-        });
-
         scrollPanelTransparente1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
         content.setOpaque(false);
@@ -115,7 +112,7 @@ public class Dashboard extends javax.swing.JFrame {
         content.setLayout(contentLayout);
         contentLayout.setHorizontalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 721, Short.MAX_VALUE)
+            .addGap(0, 986, Short.MAX_VALUE)
         );
         contentLayout.setVerticalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,45 +121,62 @@ public class Dashboard extends javax.swing.JFrame {
 
         scrollPanelTransparente1.setViewportView(content);
 
-        javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
-        menu.setLayout(menuLayout);
-        menuLayout.setHorizontalGroup(
-            menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 280, Short.MAX_VALUE)
+        javax.swing.GroupLayout panelDegradado1Layout = new javax.swing.GroupLayout(panelDegradado1);
+        panelDegradado1.setLayout(panelDegradado1Layout);
+        panelDegradado1Layout.setHorizontalGroup(
+            panelDegradado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
-        menuLayout.setVerticalGroup(
-            menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 628, Short.MAX_VALUE)
+        panelDegradado1Layout.setVerticalGroup(
+            panelDegradado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
+
+        botonMenuConfgReloj.setGrosorBarra(3);
+        botonMenuConfgReloj.setRedondeadoBarra(3);
+        botonMenuConfgReloj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonMenuConfgRelojActionPerformed(evt);
+            }
+        });
+
+        botonMenuHome.setGrosorBarra(3);
+        botonMenuHome.setRedondeadoBarra(3);
+        botonMenuHome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonMenuHomeActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelDegradadoBack1Layout = new javax.swing.GroupLayout(panelDegradadoBack1);
         panelDegradadoBack1.setLayout(panelDegradadoBack1Layout);
         panelDegradadoBack1Layout.setHorizontalGroup(
             panelDegradadoBack1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelDegradadoBack1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDegradadoBack1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(showMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelDegradadoBack1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrollPanelTransparente1, javax.swing.GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE)
+                .addGroup(panelDegradadoBack1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(scrollPanelTransparente1, javax.swing.GroupLayout.DEFAULT_SIZE, 694, Short.MAX_VALUE)
                     .addGroup(panelDegradadoBack1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(botonMenuConfiguracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(panelDegradado1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(botonMenuHome, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(botonMenuConfgReloj, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(botonMenuConfiguracion, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         panelDegradadoBack1Layout.setVerticalGroup(
             panelDegradadoBack1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelDegradadoBack1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelDegradadoBack1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(showMenu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDegradadoBack1Layout.createSequentialGroup()
-                        .addComponent(botonMenuConfiguracion, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(scrollPanelTransparente1, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE))
-                    .addComponent(menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(panelDegradadoBack1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(botonMenuConfiguracion, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                    .addComponent(panelDegradado1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(botonMenuConfgReloj, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                    .addComponent(botonMenuHome, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
+                .addGap(6, 6, 6)
+                .addComponent(scrollPanelTransparente1, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -182,31 +196,16 @@ public class Dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonMenuConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMenuConfiguracionActionPerformed
-
-        JPanel Pagina = null;
-        boolean a = botonMenuConfiguracion.isSelecionado();
-        if (a) {
-            Pagina=(new Inicio());
-            
-        } else {
-
-            Pagina=(new Configuracion());
-        }
-        botonMenuConfiguracion.setSelecionado(!botonMenuConfiguracion.isSelecionado());
-        ShoJPanel(Pagina);
+        SelectorMenu(new Configuracion(), 2);
     }//GEN-LAST:event_botonMenuConfiguracionActionPerformed
 
-    private void showMenuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showMenuMousePressed
-        toggleMenu();
-    }//GEN-LAST:event_showMenuMousePressed
+    private void botonMenuConfgRelojActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMenuConfgRelojActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonMenuConfgRelojActionPerformed
 
-    private void showMenuMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showMenuMouseExited
-        showMenu.setIcon(setSVG(menu.isVisible() ? "resource/chevron-left-solid.svg" : "resource/chevron-right-solid.svg"));
-    }//GEN-LAST:event_showMenuMouseExited
-
-    private void showMenuMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showMenuMouseEntered
-        showMenu.setIcon(setSVG(menu.isVisible() ? "resource/chevron-left-solid-selected.svg" : "resource/chevron-right-solid-selected.svg"));
-    }//GEN-LAST:event_showMenuMouseEntered
+    private void botonMenuHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMenuHomeActionPerformed
+        SelectorMenu(new Inicio(), 1);
+    }//GEN-LAST:event_botonMenuHomeActionPerformed
 
     public static void main(String args[]) {
 
@@ -218,17 +217,20 @@ public class Dashboard extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Dashboard().setVisible(true);
+                Dashboard d = new Dashboard();
+                d.setVisible(true);
+                d.setExtendedState(MAXIMIZED_BOTH);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.mytools.swings.JComponents.BotonMenu botonMenuConfgReloj;
     private com.mytools.swings.JComponents.BotonMenu botonMenuConfiguracion;
+    private com.mytools.swings.JComponents.BotonMenu botonMenuHome;
     public static javax.swing.JPanel content;
-    private com.mytools.swings.JComponents.PanelDegradado menu;
+    private com.mytools.swings.JComponents.PanelDegradado panelDegradado1;
     public com.mytools.swings.JComponents.PanelDegradadoBack panelDegradadoBack1;
     private com.mytools.swings.JComponents.ScrollPanelTransparente scrollPanelTransparente1;
-    private javax.swing.JLabel showMenu;
     // End of variables declaration//GEN-END:variables
 }

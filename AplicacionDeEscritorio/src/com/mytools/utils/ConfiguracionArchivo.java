@@ -1,4 +1,4 @@
-package com.mytools.db;
+package com.mytools.utils;
 
 import com.mytools.swings.JComponents.Constantes;
 import com.mytools.swings.JComponents.Label.LabelText;
