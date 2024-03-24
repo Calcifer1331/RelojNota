@@ -8,6 +8,14 @@ import java.util.TimerTask;
 
 public class Alarma {
 
+    public Timbre getTimbre() {
+        return timbre;
+    }
+
+    public void setTimbre(Timbre timbre) {
+        this.timbre = timbre;
+    }
+
     public int getHoraInicio() {
         return horaInicio;
     }
@@ -57,6 +65,7 @@ public class Alarma {
     }
 
     private Timer timer;
+    private Timbre timbre;
     private long INTERVALO;
 
     private int horaRestante;
@@ -88,6 +97,7 @@ public class Alarma {
 
     public Alarma() {
         timer = new Timer();
+        timbre = new Timbre();
     }
 
     public void inicir(int hora, int minuto, int segundo) {
@@ -130,10 +140,12 @@ public class Alarma {
             setSegundoRestante(segundos);
 
             if (tiempoRestante <= 0) {
-                System.out.println("¡¡¡ALARMA!!!");
-                Toolkit.getDefaultToolkit().beep();
                 ciclosCompletados++;
                 notifyListeners(ciclosCompletados);
+                
+                System.out.println("¡¡¡ALARMA!!!");
+                
+                getTimbre().inicir();
                 //alarmaSe(1);
                 tiempoRestante = INTERVALO; // Reiniciar el tiempo restante
             }
