@@ -1,29 +1,24 @@
 package com.mytools.ilib;
 
 import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.demo.intellijthemes.IJThemesPanel;
-import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.mytools.utils.Alarma;
+import com.mytools.views.ConfigAlarma;
 import com.mytools.views.Configuracion;
 import com.mytools.views.Inicio;
 import java.awt.BorderLayout;
 import static java.awt.Frame.MAXIMIZED_BOTH;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 public class Dashboard extends javax.swing.JFrame {
 
-    private final int MAX_ICON_SIZE = 20;
-
-    private FlatSVGIcon svgIcon;
-
+    public static Alarma alarma;
+    
     public Dashboard() {
         initComponents();
+        alarma=new Alarma();
         Init();
     }
 
@@ -32,7 +27,7 @@ public class Dashboard extends javax.swing.JFrame {
         botonMenuConfgReloj.setSvgImage("resource/IconMenu/reloj.svg");
         botonMenuHome.setSvgImage("resource/IconMenu/Home.svg");
         try {
-            SelectorMenu(new Inicio(), 1);
+            SelectorMenu(new Inicio(alarma), 1);
         } catch (Exception ex) {
             Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -45,6 +40,10 @@ public class Dashboard extends javax.swing.JFrame {
         content.revalidate();
         content.repaint();
     }
+    
+    public void sicloReloj(){
+        
+    }
 
     private void SelectorMenu(JPanel Pagina, int indice) {
         // Deseleccionar todos los botones
@@ -52,7 +51,6 @@ public class Dashboard extends javax.swing.JFrame {
         botonMenuConfgReloj.setSelecionado(false);
         botonMenuHome.setSelecionado(false);
         
-
         // Seleccionar el botón específico
         switch (indice) {
             case 1:
@@ -77,10 +75,6 @@ public class Dashboard extends javax.swing.JFrame {
         ShoJPanel(Pagina);
     }
 
-    private FlatSVGIcon setSVG(String img) {
-        svgIcon = new FlatSVGIcon(img, 13, 20);
-        return svgIcon;
-    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -200,11 +194,11 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_botonMenuConfiguracionActionPerformed
 
     private void botonMenuConfgRelojActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMenuConfgRelojActionPerformed
-        // TODO add your handling code here:
+        SelectorMenu(new ConfigAlarma(alarma), 3);
     }//GEN-LAST:event_botonMenuConfgRelojActionPerformed
 
     private void botonMenuHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMenuHomeActionPerformed
-        SelectorMenu(new Inicio(), 1);
+        SelectorMenu(new Inicio(alarma), 1);
     }//GEN-LAST:event_botonMenuHomeActionPerformed
 
     public static void main(String args[]) {

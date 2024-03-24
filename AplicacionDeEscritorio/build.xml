@@ -72,9 +72,9 @@
     -->
     
     <target name="-post-jar">
-        <property name="store.jar.name" value="Gestor para paguina web"/>
+        <property name="store.jar.name" value="AlarmaNota"/><!--Nombre del proyecto-->
  
-        <property name="store.dir" value="Gestor para paguina web"/>
+        <property name="store.dir" value="Contenedr_Alarma_Nota"/><!--Nombre de la carpeta-->
         <property name="store.jar" value="${store.dir}/${store.jar.name}.jar"/>
  
         <echo message="Packaging ${application.title} into a single JAR at ${store.jar}"/>

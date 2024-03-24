@@ -21,17 +21,21 @@ public class Inicio extends javax.swing.JPanel {
     private Timer timer;
 
     public Inicio() {
-
         initComponents();
         alarma = new Alarma();
-        timer = new Timer();
         init();
 
     }
 
+    public Inicio(Alarma alarma) {
+        initComponents();
+        this.alarma = alarma;
+        init();
+    }
+
     private void init() {
-        RelojAlarma.setSvgImage("resource/IconoReloj/relojAlarma-abajo.svg");
-        alarma.inicirAlarma(0, 0, 32);
+        timer = new Timer();
+        RelojAlarma.setSvgImage(alarma.getImg());
         actualizarHora();
         loadFromFile(); // Cargar contenido del archivo al iniciar
         TextNota.getDocument().addDocumentListener(new DocumentListener() {
@@ -59,14 +63,12 @@ public class Inicio extends javax.swing.JPanel {
             HoraActual.setText(horaActual());
             HoraRestante.setText(alarma.toString());
         }
-
     }
 
     private String horaActual() {// retona hora actual con fomato
         LocalTime horaActual = LocalTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss a");
         String horaFormateada = horaActual.format(formatter);
-
         return horaFormateada;
     }
 
