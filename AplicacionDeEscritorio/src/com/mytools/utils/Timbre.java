@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JOptionPane;
 
 public class Timbre {
@@ -71,6 +74,8 @@ public class Timbre {
     private int minutoInicio;
     private int segundoInicio;
 
+    private Clip clip;
+
     public interface TimbreListener {
 
         void cicloCompletado(boolean activo);
@@ -90,29 +95,27 @@ public class Timbre {
 
     public Timbre() {
         timer = new Timer();
+
+        // Cargar el archivo de sonido
+        iniciraWAV();
     }
 
-    /*
-    public void panel() {
-    new Thread(() -> {
-
-        int opcion = jOptionPane.showConfirmDialog(Dashboard.content, "Cambio de posición!\n", "AVISO", jOptionPane.OK_CANCEL_OPTION);
-
-        if (opcion == JOptionPane.OK_OPTION) {
-            // Aquí colocas el código que deseas ejecutar cuando se presiona "OK"
-            System.out.println("El usuario presionó OK");
-            detener();
-        } else {
-            // Aquí colocas el código que deseas ejecutar cuando se presiona "Cancelar" o se cierra el diálogo
-            System.out.println("El usuario presionó Cancelar o cerró el diálogo");
+    private void iniciraWAV() {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getResource("/resource/alarma.wav"));
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }).start();
-}*/
+    }
+
     public void inicir(int hora, int minuto, int segundo) {
         setHoraInicio(hora);
         setMinutoInicio(minuto);
         setSegundoInicio(segundo);
         notifyListeners(true);
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
 
         INTERVALO = (long) ((getHoraInicio() * 60 * 60) + (getMinutoInicio() * 60) + getSegundoInicio()) * 1000;
 
@@ -121,6 +124,7 @@ public class Timbre {
 
     public void inicir() {
         notifyListeners(true);
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
 
         INTERVALO = (long) ((getHoraInicio() * 60 * 60) + (getMinutoInicio() * 60) + getSegundoInicio()) * 1000;
 
@@ -131,6 +135,8 @@ public class Timbre {
         timer.cancel();
         timer = new Timer();
         notifyListeners(false);
+        clip.close();
+        inicir();
     }
 
     class MiTarea extends TimerTask {
@@ -149,8 +155,6 @@ public class Timbre {
             setHoraRestante(horas);
             setMinutoRestante(minutos);
             setSegundoRestante(segundos);
-
-            Toolkit.getDefaultToolkit().beep();
 
             if (tiempoRestante <= 0) {
                 System.out.println("Timer Detenido");
