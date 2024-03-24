@@ -15,19 +15,26 @@ import javax.swing.UIManager;
 public class Dashboard extends javax.swing.JFrame {
 
     public static Alarma alarma;
-    
+    private Inicio inicio;
+    private ConfigAlarma configAlarma;
+    private Configuracion configuracion;
+
     public Dashboard() {
         initComponents();
-        alarma=new Alarma();
+        alarma = new Alarma();
         Init();
     }
 
     private void Init() {
+        inicio = new Inicio(alarma);
+        alarma.addAlarmaListener(inicio);
+        configAlarma = new ConfigAlarma(alarma);
+        configuracion = new Configuracion();
         botonMenuConfiguracion.setSvgImage("resource/IconMenu/Settings.svg");
         botonMenuConfgReloj.setSvgImage("resource/IconMenu/reloj.svg");
         botonMenuHome.setSvgImage("resource/IconMenu/Home.svg");
         try {
-            SelectorMenu(new Inicio(alarma), 1);
+            SelectorMenu(inicio, 1);
         } catch (Exception ex) {
             Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -40,9 +47,9 @@ public class Dashboard extends javax.swing.JFrame {
         content.revalidate();
         content.repaint();
     }
-    
-    public void sicloReloj(){
-        
+
+    public void sicloReloj() {
+
     }
 
     private void SelectorMenu(JPanel Pagina, int indice) {
@@ -50,7 +57,7 @@ public class Dashboard extends javax.swing.JFrame {
         botonMenuConfiguracion.setSelecionado(false);
         botonMenuConfgReloj.setSelecionado(false);
         botonMenuHome.setSelecionado(false);
-        
+
         // Seleccionar el botón específico
         switch (indice) {
             case 1:
@@ -72,9 +79,11 @@ public class Dashboard extends javax.swing.JFrame {
             default:
 
         }
+        if(Pagina.getClass()==Inicio.class){
+            alarma.addAlarmaListener((Alarma.AlarmaListener) Pagina);
+        }
         ShoJPanel(Pagina);
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -190,15 +199,15 @@ public class Dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonMenuConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMenuConfiguracionActionPerformed
-        SelectorMenu(new Configuracion(), 2);
+        SelectorMenu(configuracion, 2);
     }//GEN-LAST:event_botonMenuConfiguracionActionPerformed
 
     private void botonMenuConfgRelojActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMenuConfgRelojActionPerformed
-        SelectorMenu(new ConfigAlarma(alarma), 3);
+        SelectorMenu(configAlarma, 3);
     }//GEN-LAST:event_botonMenuConfgRelojActionPerformed
 
     private void botonMenuHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMenuHomeActionPerformed
-        SelectorMenu(new Inicio(alarma), 1);
+        SelectorMenu(inicio, 1);
     }//GEN-LAST:event_botonMenuHomeActionPerformed
 
     public static void main(String args[]) {

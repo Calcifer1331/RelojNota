@@ -1,18 +1,12 @@
 package com.mytools.utils;
 
+import java.util.List;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Alarma {
-
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
 
     public int getHoraInicio() {
         return horaInicio;
@@ -64,7 +58,6 @@ public class Alarma {
 
     private Timer timer;
     private long INTERVALO;
-    private String img;
 
     private int horaRestante;
     private int minutoRestante;
@@ -73,19 +66,33 @@ public class Alarma {
     private int horaInicio;
     private int minutoInicio;
     private int segundoInicio;
-    String[] imagenes = {
-        "resource/IconoReloj/relojAlarma-ariba.svg",
-        "resource/IconoReloj/relojAlarma-derecha.svg",
-        "resource/IconoReloj/relojAlarma-abajo.svg",
-        "resource/IconoReloj/relojAlarma-izquierda.svg"
-    };
+
+    int ciclosCompletados;
+
+    public interface AlarmaListener {
+
+        void cicloCompletado(int ciclo);
+    }
+
+    private List<AlarmaListener> listeners = new ArrayList<>();
+
+    public void addAlarmaListener(AlarmaListener listener) {
+        listeners.add(listener);
+    }
+
+    public void notifyListeners(int ciclo) {
+        for (AlarmaListener listener : listeners) {
+            listener.cicloCompletado(ciclo);
+        }
+    }
 
     public Alarma() {
         timer = new Timer();
-        setImg("resource/IconoReloj/reloj.svg");
     }
 
     public void inicir(int hora, int minuto, int segundo) {
+        ciclosCompletados = 0;
+        notifyListeners(ciclosCompletados);
         setHoraInicio(hora);
         setMinutoInicio(minuto);
         setSegundoInicio(segundo);
@@ -100,10 +107,14 @@ public class Alarma {
         return horaRestante + ":" + minutoRestante + ":" + segundoRestante;
     }
 
+    public void detener() {
+        timer.cancel();
+        timer = new Timer();
+    }
+
     class MiTarea extends TimerTask {
 
         long tiempoRestante = INTERVALO;
-        int ciclosCompletados = 0;
 
         @Override
         public void run() {
@@ -122,7 +133,7 @@ public class Alarma {
                 System.out.println("¡¡¡ALARMA!!!");
                 Toolkit.getDefaultToolkit().beep();
                 ciclosCompletados++;
-                setImg(imagenes[ciclosCompletados % imagenes.length]);
+                notifyListeners(ciclosCompletados);
                 //alarmaSe(1);
                 tiempoRestante = INTERVALO; // Reiniciar el tiempo restante
             }

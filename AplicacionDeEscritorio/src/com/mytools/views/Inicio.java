@@ -1,6 +1,7 @@
 package com.mytools.views;
 
 import com.mytools.utils.Alarma;
+import com.mytools.utils.Alarma.AlarmaListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,10 +16,16 @@ import java.util.TimerTask;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class Inicio extends javax.swing.JPanel {
+public class Inicio extends javax.swing.JPanel implements AlarmaListener {
 
     private Alarma alarma;
     private Timer timer;
+    String[] imagenes = {
+        "resource/IconoReloj/relojAlarma-ariba.svg",
+        "resource/IconoReloj/relojAlarma-derecha.svg",
+        "resource/IconoReloj/relojAlarma-abajo.svg",
+        "resource/IconoReloj/relojAlarma-izquierda.svg"
+    };
 
     public Inicio() {
         initComponents();
@@ -33,9 +40,14 @@ public class Inicio extends javax.swing.JPanel {
         init();
     }
 
+    @Override
+    public void cicloCompletado(int ciclo) {
+        RelojAlarma.setSvgImage(imagenes[ciclo % imagenes.length]);
+    }
+
     private void init() {
         timer = new Timer();
-        RelojAlarma.setSvgImage(alarma.getImg());
+        RelojAlarma.setSvgImage("resource/IconoReloj/reloj.svg");
         actualizarHora();
         loadFromFile(); // Cargar contenido del archivo al iniciar
         TextNota.getDocument().addDocumentListener(new DocumentListener() {

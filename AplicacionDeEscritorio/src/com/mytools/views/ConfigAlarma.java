@@ -14,6 +14,7 @@ public class ConfigAlarma extends javax.swing.JPanel {
     }
 
     private void init() {
+        
         spinnerHoras.setValue(alarma.getHoraInicio());
         spinnerMinutos.setValue(alarma.getMinutoInicio());
         spinnerSegundos.setValue(alarma.getSegundoInicio());
@@ -39,6 +40,7 @@ public class ConfigAlarma extends javax.swing.JPanel {
         panelDegradado3 = new com.mytools.swings.JComponents.PanelDegradado();
         labelHeaderGuardar = new com.mytools.swings.JComponents.Label.LabelHeader();
         btnGuardarAlarma = new com.mytools.swings.JComponents.BotonColor();
+        btnDetenerAlarma = new com.mytools.swings.JComponents.BotonColor();
 
         setOpaque(false);
 
@@ -137,6 +139,13 @@ public class ConfigAlarma extends javax.swing.JPanel {
             }
         });
 
+        btnDetenerAlarma.setText("Detener");
+        btnDetenerAlarma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDetenerAlarmaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelDegradado3Layout = new javax.swing.GroupLayout(panelDegradado3);
         panelDegradado3.setLayout(panelDegradado3Layout);
         panelDegradado3Layout.setHorizontalGroup(
@@ -145,10 +154,8 @@ public class ConfigAlarma extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(panelDegradado3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelHeaderGuardar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDegradado3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnGuardarAlarma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(btnGuardarAlarma, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnDetenerAlarma, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelDegradado3Layout.setVerticalGroup(
@@ -158,6 +165,8 @@ public class ConfigAlarma extends javax.swing.JPanel {
                 .addComponent(labelHeaderGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnGuardarAlarma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnDetenerAlarma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -185,8 +194,13 @@ public class ConfigAlarma extends javax.swing.JPanel {
         Dashboard.alarma = alarma;
     }//GEN-LAST:event_btnGuardarAlarmaActionPerformed
 
+    private void btnDetenerAlarmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetenerAlarmaActionPerformed
+        alarma.detener();
+    }//GEN-LAST:event_btnDetenerAlarmaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.mytools.swings.JComponents.BotonColor btnDetenerAlarma;
     private com.mytools.swings.JComponents.BotonColor btnGuardarAlarma;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
