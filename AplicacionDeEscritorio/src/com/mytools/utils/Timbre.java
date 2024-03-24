@@ -95,14 +95,14 @@ public class Timbre {
 
     public Timbre() {
         timer = new Timer();
-
         // Cargar el archivo de sonido
-        iniciraWAV();
     }
 
     private void iniciraWAV() {
         try {
+
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getResource("/resource/alarma.wav"));
+
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
         } catch (Exception e) {
@@ -114,7 +114,10 @@ public class Timbre {
         setHoraInicio(hora);
         setMinutoInicio(minuto);
         setSegundoInicio(segundo);
+        
         notifyListeners(true);
+        
+        iniciraWAV();
         clip.loop(Clip.LOOP_CONTINUOUSLY);
 
         INTERVALO = (long) ((getHoraInicio() * 60 * 60) + (getMinutoInicio() * 60) + getSegundoInicio()) * 1000;
@@ -124,6 +127,7 @@ public class Timbre {
 
     public void inicir() {
         notifyListeners(true);
+        iniciraWAV();
         clip.loop(Clip.LOOP_CONTINUOUSLY);
 
         INTERVALO = (long) ((getHoraInicio() * 60 * 60) + (getMinutoInicio() * 60) + getSegundoInicio()) * 1000;
@@ -136,7 +140,6 @@ public class Timbre {
         timer = new Timer();
         notifyListeners(false);
         clip.close();
-        iniciraWAV();
     }
 
     class MiTarea extends TimerTask {
