@@ -136,7 +136,7 @@ public class Timbre {
         timer = new Timer();
         notifyListeners(false);
         clip.close();
-        inicir();
+        iniciraWAV();
     }
 
     class MiTarea extends TimerTask {
