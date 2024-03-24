@@ -1,7 +1,10 @@
 package com.mytools.views;
 
+import com.mytools.swings.JComponents.BotonColor;
 import com.mytools.utils.Alarma;
 import com.mytools.utils.Alarma.AlarmaListener;
+import com.mytools.utils.Timbre;
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -16,16 +19,18 @@ import java.util.TimerTask;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class Inicio extends javax.swing.JPanel implements AlarmaListener {
+public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre.TimbreListener {
 
     private Alarma alarma;
     private Timer timer;
+    private boolean alarmaActiva;
     String[] imagenes = {
         "resource/IconoReloj/relojAlarma-ariba.svg",
         "resource/IconoReloj/relojAlarma-derecha.svg",
         "resource/IconoReloj/relojAlarma-abajo.svg",
         "resource/IconoReloj/relojAlarma-izquierda.svg"
     };
+    private BotonColor botonColor = new BotonColor();
 
     public Inicio() {
         initComponents();
@@ -38,6 +43,12 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener {
         initComponents();
         this.alarma = alarma;
         init();
+    }
+
+    @Override
+    public void cicloCompletado(boolean activo) {
+        alarmaActiva = activo;
+        btnDetenerAlarma.setBackground(activo?Color.decode("#FF6666"):Color.decode("#CCCCCC"));
     }
 
     @Override
@@ -126,6 +137,9 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener {
         PanelHoraRestante = new com.mytools.swings.JComponents.PanelDegradado();
         labelTitle2 = new com.mytools.swings.JComponents.Label.LabelTitle();
         HoraRestante = new com.mytools.swings.JComponents.Label.LabelHeader();
+        PanelHoraRestante1 = new com.mytools.swings.JComponents.PanelDegradado();
+        labelTitle3 = new com.mytools.swings.JComponents.Label.LabelTitle();
+        btnDetenerAlarma = new com.mytools.swings.JComponents.BotonColor();
         labelHeader1 = new com.mytools.swings.JComponents.Label.LabelHeader();
 
         setOpaque(false);
@@ -150,7 +164,7 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener {
                 .addContainerGap()
                 .addGroup(PanelHoraActualkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(HoraActual, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelTitle1, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE))
+                    .addComponent(labelTitle1, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE))
                 .addContainerGap())
         );
         PanelHoraActualkLayout.setVerticalGroup(
@@ -175,7 +189,7 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener {
             .addGroup(PanelHoraRestanteLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanelHoraRestanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelTitle2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                    .addComponent(labelTitle2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
                     .addComponent(HoraRestante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -189,19 +203,54 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener {
                 .addContainerGap())
         );
 
+        labelTitle3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        labelTitle3.setText("Alarma");
+
+        btnDetenerAlarma.setBackground(new java.awt.Color(204, 204, 204));
+        btnDetenerAlarma.setText("Detener");
+        btnDetenerAlarma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDetenerAlarmaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout PanelHoraRestante1Layout = new javax.swing.GroupLayout(PanelHoraRestante1);
+        PanelHoraRestante1.setLayout(PanelHoraRestante1Layout);
+        PanelHoraRestante1Layout.setHorizontalGroup(
+            PanelHoraRestante1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelHoraRestante1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelHoraRestante1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelTitle3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+                    .addComponent(btnDetenerAlarma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        PanelHoraRestante1Layout.setVerticalGroup(
+            PanelHoraRestante1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelHoraRestante1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelTitle3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(btnDetenerAlarma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44))
+        );
+
         javax.swing.GroupLayout panelDegradado1Layout = new javax.swing.GroupLayout(panelDegradado1);
         panelDegradado1.setLayout(panelDegradado1Layout);
         panelDegradado1Layout.setHorizontalGroup(
             panelDegradado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelDegradado1Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(RelojAlarma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(19, 19, 19))
-            .addGroup(panelDegradado1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(PanelHoraActualk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PanelHoraRestante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelDegradado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelDegradado1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(PanelHoraActualk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PanelHoraRestante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PanelHoraRestante1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelDegradado1Layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(RelojAlarma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelDegradado1Layout.setVerticalGroup(
@@ -210,9 +259,10 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener {
                 .addContainerGap()
                 .addGroup(panelDegradado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(PanelHoraActualk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(PanelHoraRestante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(RelojAlarma, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
+                    .addComponent(PanelHoraRestante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PanelHoraRestante1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(RelojAlarma, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
                 .addGap(19, 19, 19))
         );
 
@@ -227,9 +277,10 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener {
                     .addComponent(scrollPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(labelHeader1, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)))
+                        .addComponent(labelHeader1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelDegradado1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(panelDegradado1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -241,17 +292,28 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnDetenerAlarmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetenerAlarmaActionPerformed
+        // TODO add your handling code here:
+        if (alarmaActiva) {
+            alarma.getTimbre().detener();
+            System.out.println("detener");
+        }
+    }//GEN-LAST:event_btnDetenerAlarmaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.mytools.swings.JComponents.Label.LabelHeader HoraActual;
     private com.mytools.swings.JComponents.Label.LabelHeader HoraRestante;
     private com.mytools.swings.JComponents.PanelDegradado PanelHoraActualk;
     private com.mytools.swings.JComponents.PanelDegradado PanelHoraRestante;
+    private com.mytools.swings.JComponents.PanelDegradado PanelHoraRestante1;
     private com.mytools.swings.JComponents.Label.LabelLogo RelojAlarma;
     private com.mytools.swings.JComponents.TextAreaTransparente TextNota;
+    private com.mytools.swings.JComponents.BotonColor btnDetenerAlarma;
     private com.mytools.swings.JComponents.Label.LabelHeader labelHeader1;
     private com.mytools.swings.JComponents.Label.LabelTitle labelTitle1;
     private com.mytools.swings.JComponents.Label.LabelTitle labelTitle2;
+    private com.mytools.swings.JComponents.Label.LabelTitle labelTitle3;
     private com.mytools.swings.JComponents.PanelDegradado panelDegradado1;
     private com.mytools.swings.JComponents.ScrollPanel scrollPanel1;
     // End of variables declaration//GEN-END:variables

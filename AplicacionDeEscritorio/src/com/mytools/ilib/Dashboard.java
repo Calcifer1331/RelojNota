@@ -26,8 +26,11 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     private void Init() {
+        alarma.setHoraInicio(2);
+        alarma.getTimbre().setMinutoInicio(2);
         inicio = new Inicio(alarma);
         alarma.addAlarmaListener(inicio);
+        alarma.getTimbre().addTimbreListener(inicio);
         configAlarma = new ConfigAlarma(alarma);
         configuracion = new Configuracion();
         botonMenuConfiguracion.setSvgImage("resource/IconMenu/Settings.svg");

@@ -1,10 +1,14 @@
 package com.mytools.utils;
 
+import com.mytools.ilib.Dashboard;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import javax.swing.JOptionPane;
 
 public class Timbre {
 
@@ -67,14 +71,48 @@ public class Timbre {
     private int minutoInicio;
     private int segundoInicio;
 
+    public interface TimbreListener {
+
+        void cicloCompletado(boolean activo);
+    }
+
+    private List<TimbreListener> listeners = new ArrayList<>();
+
+    public void addTimbreListener(TimbreListener listener) {
+        listeners.add(listener);
+    }
+
+    public void notifyListeners(boolean activo) {
+        for (TimbreListener listener : listeners) {
+            listener.cicloCompletado(activo);
+        }
+    }
+
     public Timbre() {
         timer = new Timer();
     }
 
+    /*
+    public void panel() {
+    new Thread(() -> {
+
+        int opcion = jOptionPane.showConfirmDialog(Dashboard.content, "Cambio de posición!\n", "AVISO", jOptionPane.OK_CANCEL_OPTION);
+
+        if (opcion == JOptionPane.OK_OPTION) {
+            // Aquí colocas el código que deseas ejecutar cuando se presiona "OK"
+            System.out.println("El usuario presionó OK");
+            detener();
+        } else {
+            // Aquí colocas el código que deseas ejecutar cuando se presiona "Cancelar" o se cierra el diálogo
+            System.out.println("El usuario presionó Cancelar o cerró el diálogo");
+        }
+    }).start();
+}*/
     public void inicir(int hora, int minuto, int segundo) {
         setHoraInicio(hora);
         setMinutoInicio(minuto);
         setSegundoInicio(segundo);
+        notifyListeners(true);
 
         INTERVALO = (long) ((getHoraInicio() * 60 * 60) + (getMinutoInicio() * 60) + getSegundoInicio()) * 1000;
 
@@ -82,6 +120,7 @@ public class Timbre {
     }
 
     public void inicir() {
+        notifyListeners(true);
 
         INTERVALO = (long) ((getHoraInicio() * 60 * 60) + (getMinutoInicio() * 60) + getSegundoInicio()) * 1000;
 
@@ -91,6 +130,7 @@ public class Timbre {
     public void detener() {
         timer.cancel();
         timer = new Timer();
+        notifyListeners(false);
     }
 
     class MiTarea extends TimerTask {
@@ -116,6 +156,7 @@ public class Timbre {
                 System.out.println("Timer Detenido");
                 detener();
             }
+
         }
     }
 }

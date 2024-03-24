@@ -274,6 +274,7 @@ public class ConfigAlarma extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarAlarmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarAlarmaActionPerformed
+        alarma.detener();
         alarma.inicir((int) spinnerHoras.getValue(), (int) spinnerMinutos.getValue(), (int) spinnerSegundos.getValue());
         alarma.getTimbre().setHoraInicio((int) spinnerHorasTimbre.getValue());
         alarma.getTimbre().setMinutoInicio((int) spinnerMinutosTimbre.getValue());
