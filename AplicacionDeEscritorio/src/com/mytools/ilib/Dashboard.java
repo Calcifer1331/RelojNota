@@ -5,6 +5,7 @@ import com.mytools.utils.Alarma;
 import com.mytools.views.ConfigAlarma;
 import com.mytools.views.Configuracion;
 import com.mytools.views.Inicio;
+import com.mytools.views.prueva;
 import java.awt.BorderLayout;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.util.logging.Level;
@@ -77,7 +78,6 @@ public class Dashboard extends javax.swing.JFrame {
             case 5:
                 break;
             case 10:
-
                 break;
             default:
 
@@ -206,7 +206,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_botonMenuConfiguracionActionPerformed
 
     private void botonMenuConfgRelojActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMenuConfgRelojActionPerformed
-        SelectorMenu(configAlarma, 3);
+        SelectorMenu(new prueva(), 3);
     }//GEN-LAST:event_botonMenuConfgRelojActionPerformed
 
     private void botonMenuHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMenuHomeActionPerformed

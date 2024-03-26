@@ -8,7 +8,15 @@ import javax.swing.JLabel;
 
 public class LabelHeader extends JLabel {
 
-    private final int MAX_ICON_SIZE = 25;
+    public int getIconSize() {
+        return IconSize;
+    }
+
+    public void setIconSize(int IconSize) {
+        this.IconSize = IconSize;
+    }
+
+    private int IconSize;
 
     private FlatSVGIcon svgIcon;
 
@@ -23,10 +31,11 @@ public class LabelHeader extends JLabel {
         setFont(new Font("Segoe UI", Font.BOLD, 24));
         setForeground(Color.WHITE);
         setHorizontalAlignment(CENTER);
+        setIconSize(25);
     }
 
     public void setSvgImage(String image) {
-        svgIcon = new FlatSVGIcon(image, MAX_ICON_SIZE, MAX_ICON_SIZE);
+        svgIcon = new FlatSVGIcon(image, getIconSize(), getIconSize());
         setIcon(svgIcon);
     }
 }
