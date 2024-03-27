@@ -78,12 +78,10 @@ public class Alarma{
     private int minutoInicio;
     private int segundoInicio;
     
-
     int ciclosCompletados;
 
 
     public interface AlarmaListener {
-
         void cicloCompletado(int ciclo);
     }
 

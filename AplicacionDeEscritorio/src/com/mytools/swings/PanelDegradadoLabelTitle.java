@@ -134,14 +134,13 @@ public class PanelDegradadoLabelTitle extends JPanel {
         int height = getHeight();
 
         int centroWidth = width / 2;
+        int centroHeigt = height / 2;
 
         // Dibujar fondo degradado y borde redondeado
-        dibujarFondoYBorde(g2, width, height);
-
         //Dibujar barra de selector
-        g2.setColor(isSelecionado() || isPress() ? getBackground() : new Color(204, 204, 204, 140));
+        dibujarFondoYBorde(g2, width, height);
+        //g2.fillRoundRect(isSelecionado() ? width / 10 : centroWidth - 10, height - (height / 6), isSelecionado() ? width - (2 * (width / 10)) : 20, getGrosorBarra(), getRedondeadoBarra(), getRedondeadoBarra());
 
-        g2.fillRoundRect(isSelecionado() ? width / 10 : centroWidth - 10, height - (height / 6), isSelecionado() ? width - (2 * (width / 10)) : 20, getGrosorBarra(), getRedondeadoBarra(), getRedondeadoBarra());
         super.paintComponent(grphcs);
     }
 
@@ -149,11 +148,14 @@ public class PanelDegradadoLabelTitle extends JPanel {
         // Dibujar fondo degradado
         g2.setColor(isSelecionado() || isExitado() ? isPress() ? new Color(204, 204, 204, getOpacidad() - 5) : new Color(204, 204, 204, getOpacidad()) : new Color(0, 0, 60, 0));
         g2.fillRoundRect(0, 0, width, height, getBorderRedondeado(), getBorderRedondeado());
+        g2.setColor(isSelecionado() ? getBackground() : new Color(204, 204, 204, 140));
 
         // Dibujar el borde redondeado
         if (isSelecionado() || isExitado() && getGrosorBorde() > 0) {
+            g2.fillRoundRect(1, 10, 5, height - 20, getRedondeadoBarra(), getRedondeadoBarra());
             g2.setColor(new Color(250, 250, 250, (getOpacidad()) / 3));
             g2.setStroke(new java.awt.BasicStroke(getGrosorBorde()));
+
             g2.draw(new RoundRectangle2D.Double(getGrosorBorde() / 2.0, getGrosorBorde() / 2.0, width - getGrosorBorde(), height - getGrosorBorde(), getBorderRedondeado(), getBorderRedondeado()));
         }
     }

@@ -1,13 +1,19 @@
 package com.mytools.ilib;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import com.mytools.swings.JComponents.Alarmas.Alarma_Timbre;
 import com.mytools.utils.Alarma;
 import com.mytools.views.ConfigAlarma;
 import com.mytools.views.Configuracion;
 import com.mytools.views.Inicio;
 import com.mytools.views.prueva;
+import com.mytools.views.pruevaAlarma;
 import java.awt.BorderLayout;
 import static java.awt.Frame.MAXIMIZED_BOTH;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
@@ -19,6 +25,8 @@ public class Dashboard extends javax.swing.JFrame {
     private Inicio inicio;
     private ConfigAlarma configAlarma;
     private Configuracion configuracion;
+    private pruevaAlarma pruAlarma;
+    private List<Alarma_Timbre> alarmas= new ArrayList<Alarma_Timbre>();
 
     public Dashboard() {
         initComponents();
@@ -34,6 +42,12 @@ public class Dashboard extends javax.swing.JFrame {
         alarma.getTimbre().addTimbreListener(inicio);
         configAlarma = new ConfigAlarma(alarma);
         configuracion = new Configuracion();
+
+        Alarma_Timbre alarma_Timbre = new Alarma_Timbre("Yoseph");
+        alarmas.add(alarma_Timbre);
+        System.out.println(alarmas.get(0).getNombre());
+        pruAlarma = new pruevaAlarma(alarmas);
+        
         botonMenuConfiguracion.setSvgImage("resource/IconMenu/Settings.svg");
         botonMenuConfgReloj.setSvgImage("resource/IconMenu/reloj.svg");
         botonMenuHome.setSvgImage("resource/IconMenu/Home.svg");
@@ -73,16 +87,10 @@ public class Dashboard extends javax.swing.JFrame {
             case 3:
                 botonMenuConfgReloj.setSelecionado(true);
                 break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 10:
-                break;
             default:
 
         }
-        if(Pagina.getClass()==Inicio.class){
+        if (Pagina.getClass() == Inicio.class) {
             alarma.addAlarmaListener((Alarma.AlarmaListener) Pagina);
         }
         ShoJPanel(Pagina);
@@ -202,7 +210,7 @@ public class Dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonMenuConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMenuConfiguracionActionPerformed
-        SelectorMenu(configuracion, 2);
+        SelectorMenu(pruAlarma, 2);
     }//GEN-LAST:event_botonMenuConfiguracionActionPerformed
 
     private void botonMenuConfgRelojActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMenuConfgRelojActionPerformed

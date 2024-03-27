@@ -76,9 +76,9 @@ public class prueva extends javax.swing.JPanel {
         Eliminar = new com.mytools.swings.JComponents.BotonMenu();
         panelDegradadoLabelTitle1 = new com.mytools.swings.PanelDegradadoLabelTitle();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        TextNota = new javax.swing.JTextArea();
         NombreNota = new javax.swing.JTextField();
+        scrollPanel1 = new com.mytools.swings.JComponents.ScrollPanel();
+        TextNota = new com.mytools.swings.JComponents.TextAreaTransparente();
 
         setBackground(new java.awt.Color(204, 255, 204));
         setOpaque(false);
@@ -123,7 +123,7 @@ public class prueva extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(labelTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollPanelTransparente1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(scrollPanelTransparente1, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelDegradado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -139,11 +139,12 @@ public class prueva extends javax.swing.JPanel {
 
         jLabel1.setText("jLabel1");
 
+        NombreNota.setText("nombre");
+
         TextNota.setColumns(20);
         TextNota.setRows(5);
-        jScrollPane1.setViewportView(TextNota);
-
-        NombreNota.setText("nombre");
+        TextNota.setText("\n");
+        scrollPanel1.setViewportView(TextNota);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -154,39 +155,34 @@ public class prueva extends javax.swing.JPanel {
                 .addComponent(panelDegradado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 156, Short.MAX_VALUE)
+                        .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(panelDegradadoLabelTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(148, 148, 148))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(panelDegradadoLabelTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(NombreNota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(78, 78, 78)
-                                .addComponent(jLabel1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(87, 87, 87)
-                                .addComponent(NombreNota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap())))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(scrollPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)))
+                .addGap(32, 32, 32))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(panelDegradadoLabelTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(78, 78, 78)
-                .addComponent(jLabel1)
-                .addGap(20, 20, 20)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
-                .addComponent(NombreNota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56))
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panelDegradado1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(jLabel1))
+                            .addComponent(panelDegradadoLabelTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 27, 27)
+                        .addComponent(scrollPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(NombreNota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(panelDegradado1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -205,15 +201,16 @@ public class prueva extends javax.swing.JPanel {
         String nombre = NombreNota.getText().isEmpty() ? "Nota" : NombreNota.getText();
         if (saveToFile(nombre)) {
             myList1.addItem(new Item(nombre, icon));
+            myList1.setSelectedIndex(myList1.getModel().size()-1);
+            TextNota.setText("");
         }
     }//GEN-LAST:event_NuevoActionPerformed
 
     private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
         int index = myList1.getSelectedIndex();
-        if (deleteFile(((Item) myList1.getModel().get(index)).getText())) {
-            
-            CargarList();
-        }
+        myList1.setSelectedIndex(index-1);
+        deleteFile(((Item) myList1.getModel().get(index)).getText());
+        
     }//GEN-LAST:event_EliminarActionPerformed
 
     private List<String> listFilesInFolder() {
@@ -299,19 +296,18 @@ public class prueva extends javax.swing.JPanel {
     private com.mytools.swings.JComponents.BotonMenu Eliminar;
     private javax.swing.JTextField NombreNota;
     private com.mytools.swings.JComponents.BotonMenu Nuevo;
-    private javax.swing.JTextArea TextNota;
+    private com.mytools.swings.JComponents.TextAreaTransparente TextNota;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private com.mytools.swings.JComponents.Label.LabelTitle labelTitle1;
     private com.mytools.swings.JComponents.jlist.MyList<String> myList1;
     private com.mytools.swings.JComponents.PanelDegradado panelDegradado1;
     private com.mytools.swings.PanelDegradadoLabelTitle panelDegradadoLabelTitle1;
+    private com.mytools.swings.JComponents.ScrollPanel scrollPanel1;
     private com.mytools.swings.JComponents.ScrollPanelTransparente scrollPanelTransparente1;
     // End of variables declaration//GEN-END:variables
 
     private void CargarList() {
         nombres = null;
-        myList1.getModel().clear();
         nombres = listFilesInFolder();
         for (String nombre : nombres) {
             myList1.addItem(new Item(nombre, icon));

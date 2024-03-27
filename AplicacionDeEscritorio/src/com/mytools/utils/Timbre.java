@@ -98,6 +98,14 @@ public class Timbre {
         // Cargar el archivo de sonido
     }
 
+    public Timbre(Timer timer, int horaInicio, int minutoInicio, int segundoInicio) {
+        this.timer = timer;
+        this.horaInicio = horaInicio;
+        this.minutoInicio = minutoInicio;
+        this.segundoInicio = segundoInicio;
+    }
+    
+
     private void iniciraWAV() {
         try {
 
