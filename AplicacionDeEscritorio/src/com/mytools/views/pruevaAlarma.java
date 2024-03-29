@@ -19,12 +19,12 @@ public class pruevaAlarma extends javax.swing.JPanel {
 
     public pruevaAlarma(List<Alarma_Timbre> alarmas) {
         initComponents();
-        this.alarmas = ArrayList<> (alarmas);
+        //this.alarmas = ArrayList<> (alarmas);
         init();
     }
 
     private void init() {
-        myList1.addItem(getAlarmas().get(1));
+        //myList1.addItem(getAlarmas().get(1));
         myList1.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {

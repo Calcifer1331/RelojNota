@@ -272,7 +272,6 @@ public class prueva extends javax.swing.JPanel {
             e.printStackTrace();
             return false;
         }
-
     }
 
     private boolean deleteFile(String name) {
