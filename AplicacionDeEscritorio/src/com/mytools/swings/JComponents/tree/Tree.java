@@ -26,6 +26,14 @@ import javax.swing.tree.TreePath;
 
 public class Tree extends JTree {
 
+    public JLabel getLabelTitle() {
+        return labelTitle;
+    }
+
+    public void setLabelTitle(JLabel labelTitle) {
+        this.labelTitle = labelTitle;
+    }
+
     public File getSelectedFolder() {
         return selectedFolder;
     }
@@ -59,6 +67,7 @@ public class Tree extends JTree {
     File folder;
     private JTextArea textArea = new JTextArea();
     private JLabel labelMensaje = new JLabel();
+    private JLabel labelTitle = new JLabel();
     private File selectedFolder;
 
     public Tree() {
@@ -130,10 +139,9 @@ public class Tree extends JTree {
             TreeNode selectedNode = (TreeNode) path.getLastPathComponent();
             setSelectedFolder(new File(getPath(selectedNode)));
             loadFromFile(getSelectedFolder());
-            labelMensaje.setText(getSelectedFolder().getPath());
+            getLabelTitle().setText(selectedNode.getNameFile());
         });
     }
-
 
     public void expandirTodosLosNodos() {
         expandirNodos((DefaultMutableTreeNode) getModel().getRoot());
@@ -173,7 +181,6 @@ public class Tree extends JTree {
             labelMensaje.setText("No hay componente");
         }
     }
-
 
     private String getPath(TreeNode node) {
         StringBuilder path = new StringBuilder(node.getName());
@@ -224,7 +231,10 @@ public class Tree extends JTree {
         }
     }
 
-    public void crearArchivoEnCarpetaSeleccionada(String nombreArchivo) {
+    public void crearArchivoEnCarpetaSeleccionada(String nombreArchivo, JLabel label) {
+        if (label == null) {
+            label = labelMensaje;
+        }
         TreePath path = getSelectionPath();
         if (path != null) {
             System.out.println(path);
@@ -232,26 +242,26 @@ public class Tree extends JTree {
             String selectedFolderPath = getPath(selectedNode);
             File selectedFolder = new File(selectedFolderPath);
             if (selectedFolder.exists() && selectedFolder.isDirectory()) {
-                File nuevoArchivo = new File(selectedFolderPath + File.separator + nombreArchivo);
+                File nuevoArchivo = new File(selectedFolderPath + File.separator + nombreArchivo + ".txt");
                 if (!nuevoArchivo.exists()) {
                     try {
                         if (nuevoArchivo.createNewFile()) {
                             actualizar(folder);
-                            labelMensaje.setText("Archivo creado en " + selectedFolderPath + ": " + nombreArchivo);
+                            label.setText("Archivo creado en " + selectedFolderPath + ": " + nombreArchivo);
                         } else {
-                            labelMensaje.setText("No se pudo crear el archivo.");
+                            label.setText("No se pudo crear el archivo.");
                         }
                     } catch (IOException e) {
-                        labelMensaje.setText("Error al crear el archivo: " + e.getMessage());
+                        label.setText("Error al crear el archivo: " + e.getMessage());
                     }
                 } else {
-                    labelMensaje.setText("El archivo ya existe en la carpeta seleccionada.");
+                    label.setText("El archivo ya existe en la carpeta seleccionada.");
                 }
             } else {
-                labelMensaje.setText("La carpeta seleccionada no existe o no es un directorio válido.");
+                label.setText("La carpeta seleccionada no existe o no es un directorio válido.");
             }
         } else {
-            labelMensaje.setText("No se ha seleccionado ninguna carpeta.");
+            label.setText("No se ha seleccionado ninguna carpeta.");
         }
     }
 

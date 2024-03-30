@@ -19,33 +19,43 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="panelDegradado1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="scrollPanel1" pref="408" max="32767" attributes="0"/>
+              <Component id="menuTree" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+              <Component id="showMenu" min="-2" pref="15" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="TitleNodo" min="-2" pref="331" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                      <Component id="scrollPanel1" min="-2" pref="319" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace pref="568" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="panelDegradado1" alignment="0" max="32767" attributes="0"/>
+                  <Component id="menuTree" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="160" max="-2" attributes="0"/>
-                      <Component id="scrollPanel1" pref="359" max="32767" attributes="0"/>
+                      <Component id="TitleNodo" min="-2" pref="51" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="scrollPanel1" pref="501" max="32767" attributes="0"/>
                   </Group>
+                  <Component id="showMenu" alignment="0" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="com.mytools.swings.JComponents.PanelDegradado" name="panelDegradado1">
+    <Container class="com.mytools.swings.JComponents.PanelDegradado" name="menuTree">
 
       <Layout>
         <DimensionLayout dim="0">
@@ -53,33 +63,36 @@
               <Component id="labelHeader1" alignment="1" max="32767" attributes="0"/>
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="mesajeDescripcyion" alignment="1" min="-2" pref="230" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="scrollPanelTransparente1" alignment="1" max="32767" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="Nuevo" min="-2" pref="60" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="Eliminar" min="-2" pref="60" max="-2" attributes="0"/>
+                          <Component id="Eliminar" min="-2" pref="50" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="Nuevo" min="-2" pref="50" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
+              </Group>
+              <Group type="102" attributes="0">
+                  <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
+                  <Component id="mesajeDescripcyion" min="-2" pref="195" max="-2" attributes="0"/>
+                  <EmptySpace pref="62" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
+              <Group type="102" attributes="0">
                   <Component id="labelHeader1" min="-2" pref="38" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="scrollPanelTransparente1" pref="0" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="mesajeDescripcyion" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="Nuevo" alignment="0" min="-2" pref="50" max="-2" attributes="0"/>
-                      <Component id="Eliminar" alignment="0" min="-2" pref="50" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="mesajeDescripcyion" min="-2" max="-2" attributes="0"/>
+                      <Component id="Eliminar" min="-2" pref="50" max="-2" attributes="0"/>
+                      <Component id="Nuevo" min="-2" pref="53" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -99,13 +112,16 @@
           </SubComponents>
         </Container>
         <Component class="com.mytools.swings.JComponents.Label.LabelDescripcion" name="mesajeDescripcyion">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="2"/>
+          </Properties>
         </Component>
-        <Component class="com.mytools.swings.JComponents.BotonMenu" name="Eliminar">
+        <Component class="com.mytools.swings.JComponents.BotonIcono" name="Eliminar">
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EliminarActionPerformed"/>
           </Events>
         </Component>
-        <Component class="com.mytools.swings.JComponents.BotonMenu" name="Nuevo">
+        <Component class="com.mytools.swings.JComponents.BotonIcono" name="Nuevo">
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="NuevoActionPerformed"/>
           </Events>
@@ -124,5 +140,17 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="com.mytools.swings.JComponents.Label.LabelHeader" name="TitleNodo">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Apuntes / Notas"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="showMenu">
+      <Events>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="showMenuMouseEntered"/>
+        <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="showMenuMouseExited"/>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="showMenuMousePressed"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>

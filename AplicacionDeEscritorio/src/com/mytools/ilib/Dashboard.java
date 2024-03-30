@@ -211,7 +211,7 @@ public class Dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonMenuConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMenuConfiguracionActionPerformed
-        SelectorMenu(new prueva1(), 2);
+        SelectorMenu(new prueva1(this), 2);
     }//GEN-LAST:event_botonMenuConfiguracionActionPerformed
 
     private void botonMenuConfgRelojActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMenuConfgRelojActionPerformed
