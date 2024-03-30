@@ -1,6 +1,8 @@
 package com.mytools.utils;
 
 import com.mytools.ilib.Dashboard;
+import static com.mytools.ilib.Dashboard.alarma;
+import com.mytools.views.detenerAlarma;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +16,14 @@ import javax.sound.sampled.Clip;
 import javax.swing.JOptionPane;
 
 public class Timbre {
+
+    public boolean isIniciado() {
+        return iniciado;
+    }
+
+    public void setIniciado(boolean iniciado) {
+        this.iniciado = iniciado;
+    }
 
     public int getHoraRestante() {
         return horaRestante;
@@ -73,7 +83,7 @@ public class Timbre {
     private int horaInicio;
     private int minutoInicio;
     private int segundoInicio;
-
+private boolean iniciado;
     private Clip clip;
 
     public interface TimbreListener {
@@ -104,7 +114,6 @@ public class Timbre {
         this.minutoInicio = minutoInicio;
         this.segundoInicio = segundoInicio;
     }
-    
 
     private void iniciraWAV() {
         try {
@@ -122,15 +131,16 @@ public class Timbre {
         setHoraInicio(hora);
         setMinutoInicio(minuto);
         setSegundoInicio(segundo);
-        
+
         notifyListeners(true);
-        
+
         iniciraWAV();
         clip.loop(Clip.LOOP_CONTINUOUSLY);
 
         INTERVALO = (long) ((getHoraInicio() * 60 * 60) + (getMinutoInicio() * 60) + getSegundoInicio()) * 1000;
 
         timer.schedule(new MiTarea(), 0, 1000); // Actualizar cada segundo
+        setIniciado(true);
     }
 
     public void inicir() {
@@ -141,13 +151,20 @@ public class Timbre {
         INTERVALO = (long) ((getHoraInicio() * 60 * 60) + (getMinutoInicio() * 60) + getSegundoInicio()) * 1000;
 
         timer.schedule(new MiTarea(), 0, 1000); // Actualizar cada segundo
+        setIniciado(true);
     }
 
     public void detener() {
         timer.cancel();
         timer = new Timer();
+        setIniciado(false);
         notifyListeners(false);
         clip.close();
+    }
+
+    @Override
+    public String toString() {
+        return horaRestante + ":" + minutoRestante + ":" + segundoRestante;
     }
 
     class MiTarea extends TimerTask {

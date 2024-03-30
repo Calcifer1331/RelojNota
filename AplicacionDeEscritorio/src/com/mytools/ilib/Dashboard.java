@@ -6,6 +6,7 @@ import com.mytools.utils.Alarma;
 import com.mytools.views.ConfigAlarma;
 import com.mytools.views.Configuracion;
 import com.mytools.views.Inicio;
+import com.mytools.views.detenerAlarma;
 import com.mytools.views.prueva;
 import com.mytools.views.prueva1;
 import com.mytools.views.pruevaAlarma;
@@ -27,7 +28,7 @@ public class Dashboard extends javax.swing.JFrame {
     private ConfigAlarma configAlarma;
     private Configuracion configuracion;
     private pruevaAlarma pruAlarma;
-    private List<Alarma_Timbre> alarmas= new ArrayList<Alarma_Timbre>();
+    private List<Alarma_Timbre> alarmas = new ArrayList<Alarma_Timbre>();
 
     public Dashboard() {
         initComponents();
@@ -38,7 +39,7 @@ public class Dashboard extends javax.swing.JFrame {
     private void Init() {
         alarma.setHoraInicio(2);
         alarma.getTimbre().setMinutoInicio(2);
-        inicio = new Inicio(alarma);
+        inicio = new Inicio(alarma, this);
         alarma.addAlarmaListener(inicio);
         alarma.getTimbre().addTimbreListener(inicio);
         configAlarma = new ConfigAlarma(alarma);
@@ -48,7 +49,7 @@ public class Dashboard extends javax.swing.JFrame {
         alarmas.add(alarma_Timbre);
         System.out.println(alarmas.get(0).getNombre());
         pruAlarma = new pruevaAlarma(alarmas);
-        
+
         botonMenuConfiguracion.setSvgImage("resource/IconMenu/Settings.svg");
         botonMenuConfgReloj.setSvgImage("resource/IconMenu/reloj.svg");
         botonMenuHome.setSvgImage("resource/IconMenu/Home.svg");
@@ -211,14 +212,16 @@ public class Dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonMenuConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMenuConfiguracionActionPerformed
-        SelectorMenu(new prueva1(this), 2);
+        SelectorMenu(configuracion, 2);
+
     }//GEN-LAST:event_botonMenuConfiguracionActionPerformed
 
     private void botonMenuConfgRelojActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMenuConfgRelojActionPerformed
-        SelectorMenu(new prueva(), 3);
+        
     }//GEN-LAST:event_botonMenuConfgRelojActionPerformed
 
     private void botonMenuHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMenuHomeActionPerformed
+        inicio.getTree().actualizar(inicio.getTree().getFolder());
         SelectorMenu(inicio, 1);
     }//GEN-LAST:event_botonMenuHomeActionPerformed
 

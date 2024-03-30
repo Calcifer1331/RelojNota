@@ -26,6 +26,14 @@ import javax.swing.tree.TreePath;
 
 public class Tree extends JTree {
 
+    public File getFolder() {
+        return folder;
+    }
+
+    public void setFolder(File folder) {
+        this.folder = folder;
+    }
+
     public JLabel getLabelTitle() {
         return labelTitle;
     }
@@ -64,7 +72,7 @@ public class Tree extends JTree {
     private DefaultTreeModel modelo;//modelo del arbol
 
     private String folderPath = "Notas";
-    File folder;
+    private File folder;
     private JTextArea textArea = new JTextArea();
     private JLabel labelMensaje = new JLabel();
     private JLabel labelTitle = new JLabel();
@@ -73,7 +81,7 @@ public class Tree extends JTree {
     public Tree() {
         init();
         setOpaque(false);
-        setFont(new Font("Segoe UI Semibold", Font.BOLD, 18));
+        setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
         setForeground(Color.WHITE);
     }
 
@@ -112,7 +120,7 @@ public class Tree extends JTree {
                 //setTextSelectionColor(Color.BLACK);
                 setBackgroundSelectionColor(new Color(250, 250, 250, 25));
                 //setBackgroundNonSelectionColor(Color.GREEN);
-                setFont(new Font("Segoe UI Semibold", Font.BOLD, 18));
+                setFont(new Font("Segoe UI Semibold", Font.BOLD, 16));
                 setForeground(Color.WHITE);
 
                 return component;
@@ -132,8 +140,8 @@ public class Tree extends JTree {
     }
 
     private void init() {
-        folder = new File(folderPath);
-        actualizar(folder);
+        setFolder(new File(folderPath));
+        actualizar(getFolder());
         addTreeSelectionListener(e -> {
             TreePath path = e.getPath();
             TreeNode selectedNode = (TreeNode) path.getLastPathComponent();
@@ -193,7 +201,7 @@ public class Tree extends JTree {
         return path.toString();
     }
 
-    private void actualizar(File fichero) {
+    public void actualizar(File fichero) {
         if (fichero.exists() && fichero.isDirectory()) {
             root = new TreeNode(fichero.getName());//crear raiz del arbol con nombre del fiile
             modelo = new DefaultTreeModel(root);//actuazliar el modelo con le nueva raiz
@@ -246,7 +254,7 @@ public class Tree extends JTree {
                 if (!nuevoArchivo.exists()) {
                     try {
                         if (nuevoArchivo.createNewFile()) {
-                            actualizar(folder);
+                            actualizar(getFolder());
                             label.setText("Archivo creado en " + selectedFolderPath + ": " + nombreArchivo);
                         } else {
                             label.setText("No se pudo crear el archivo.");
@@ -275,7 +283,7 @@ public class Tree extends JTree {
                 File nuevaCarpeta = new File(selectedFolderPath + File.separator + nombreCarpeta);
                 if (!nuevaCarpeta.exists()) {
                     if (nuevaCarpeta.mkdirs()) {
-                        actualizar(folder);
+                        actualizar(getFolder());
                         labelMensaje.setText("Carpeta creada en " + selectedFolderPath + ": " + nombreCarpeta);
                     } else {
                         labelMensaje.setText("No se pudo crear la carpeta.");
@@ -301,7 +309,7 @@ public class Tree extends JTree {
             System.out.println(selectedFile);
             if (selectedFile.exists()) {
                 if (selectedFile.delete()) {
-                    actualizar(folder);
+                    actualizar(getFolder());
                     labelMensaje.setText("Se elimino: " + selectedPath);
                 } else {
                     labelMensaje.setText("No se pudo eliminar: " + selectedPath);

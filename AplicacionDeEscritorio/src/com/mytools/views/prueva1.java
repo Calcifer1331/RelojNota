@@ -194,7 +194,7 @@ public class prueva1 extends javax.swing.JPanel {
 
     private void NuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NuevoActionPerformed
         addFileCarpet fileCarpet = new addFileCarpet(dashboard, tree, true);
-        fileCarpet.setVisible(true);
+        
     }//GEN-LAST:event_NuevoActionPerformed
 
     private void showMenuMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showMenuMouseEntered

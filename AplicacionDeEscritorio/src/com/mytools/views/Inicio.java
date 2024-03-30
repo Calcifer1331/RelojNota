@@ -1,5 +1,8 @@
 package com.mytools.views;
 
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.mytools.ilib.Dashboard;
+import static com.mytools.ilib.Dashboard.alarma;
 import com.mytools.swings.JComponents.BotonColor;
 import com.mytools.utils.Alarma;
 import com.mytools.utils.Alarma.AlarmaListener;
@@ -21,6 +24,17 @@ import javax.swing.event.DocumentListener;
 
 public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre.TimbreListener {
 
+    public com.mytools.swings.JComponents.tree.Tree getTree() {
+        return tree;
+    }
+
+    public void setTree(com.mytools.swings.JComponents.tree.Tree tree) {
+        this.tree = tree;
+    }
+
+    Dashboard dashboard;
+    ConfigAlarm configAlarm;
+
     private Alarma alarma;
     private Timer timer;
     private boolean alarmaActiva;
@@ -32,23 +46,18 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
     };
     private BotonColor botonColor = new BotonColor();
 
-    public Inicio() {
-        initComponents();
-        alarma = new Alarma();
-        init();
-
-    }
-
-    public Inicio(Alarma alarma) {
+    public Inicio(Alarma alarma, Dashboard dashboard) {
         initComponents();
         this.alarma = alarma;
+        this.dashboard = dashboard;
         init();
     }
 
     @Override
     public void cicloCompletado(boolean activo) {
         alarmaActiva = activo;
-        btnDetenerAlarma.setBackground(activo?Color.decode("#FF6666"):Color.decode("#CCCCCC"));
+        AlarmaDetener.setVisible(activo);
+        System.out.println(activo);
     }
 
     @Override
@@ -57,21 +66,36 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
     }
 
     private void init() {
+
         timer = new Timer();
         RelojAlarma.setSvgImage("resource/IconoReloj/reloj.svg");
         actualizarHora();
-        loadFromFile(); // Cargar contenido del archivo al iniciar
-        TextNota.getDocument().addDocumentListener(new DocumentListener() {
+
+        initComponents();
+        getTree().setTextArea(textAreaNota);
+        getTree().setLabelMensaje(mesajeDescripcyion);
+        getTree().setLabelTitle(TitleNodo);
+        Nuevo.setIconSvg("resource/Plus.svg");
+        Eliminar.setIconSvg("resource/Delete.svg");
+        showMenu.setIcon(new FlatSVGIcon(menuTree.isVisible() ? "resource/chevron-left-solid.svg" : "resource/chevron-right-solid.svg", 13, 20));
+        AlarmaConfig.setIconSvg("resource/Support.svg");
+        AlarmaDetener.setIconSvg("resource/Rstop.svg");
+        AlarmaDetener.setVisible(false);
+
+        textAreaNota.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) {
-                saveToFile();
+                System.out.println("listener insert" + getTree().getSelectedFolder());
+                saveToFile(getTree().getSelectedFolder());
+
             }
 
             public void removeUpdate(DocumentEvent e) {
-                saveToFile();
+                System.out.println("listener remove" + getTree().getSelectedFolder());
+
+                saveToFile(getTree().getSelectedFolder());
             }
 
             public void changedUpdate(DocumentEvent e) {
-                saveToFile();
             }
         });
     }
@@ -95,40 +119,37 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
         return horaFormateada;
     }
 
-    private void loadFromFile() {
-        File file = new File("texto.txt");
+    private void saveToFile(File file) {
+        String text = textAreaNota.getText();
         if (file.exists()) {
-            try (BufferedReader reader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
-                StringBuilder sb = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line).append("\n");
+            if (file.isFile()) {
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8))) {
+                    writer.write(text);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.out.println("error");
                 }
-                TextNota.setText(sb.toString());
-            } catch (IOException e) {
-                e.printStackTrace();
+            } else {
+                System.out.println("no es file");
             }
         } else {
-            // Si el archivo no existe, no hay contenido para cargar
-            System.out.println("El archivo no existe. Se creará uno nuevo.");
+            System.out.println("no existe");
         }
+
     }
 
-    private void saveToFile() {
-        String text = TextNota.getText();
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("texto.txt", StandardCharsets.UTF_8))) {
-            writer.write(text);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void toggleMenu() {
+        // Cambiar la visibilidad del menú
+        menuTree.setVisible(!menuTree.isVisible());
+        showMenu.setIcon(new FlatSVGIcon(menuTree.isVisible() ? "resource/chevron-left-solid.svg" : "resource/chevron-right-solid.svg", 13, 20));
+        revalidate();
+        repaint();
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        scrollPanel1 = new com.mytools.swings.JComponents.ScrollPanel();
-        TextNota = new com.mytools.swings.JComponents.TextAreaTransparente();
         panelDegradado1 = new com.mytools.swings.JComponents.PanelDegradado();
         RelojAlarma = new com.mytools.swings.JComponents.Label.LabelLogo();
         PanelHoraActualk = new com.mytools.swings.JComponents.PanelDegradado();
@@ -137,19 +158,22 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
         PanelHoraRestante = new com.mytools.swings.JComponents.PanelDegradado();
         labelTitle2 = new com.mytools.swings.JComponents.Label.LabelTitle();
         HoraRestante = new com.mytools.swings.JComponents.Label.LabelHeader();
-        PanelHoraRestante1 = new com.mytools.swings.JComponents.PanelDegradado();
-        labelTitle3 = new com.mytools.swings.JComponents.Label.LabelTitle();
-        btnDetenerAlarma = new com.mytools.swings.JComponents.BotonColor();
+        AlarmaConfig = new com.mytools.swings.JComponents.BotonIcono();
+        AlarmaDetener = new com.mytools.swings.JComponents.BotonIcono();
+        menuTree = new com.mytools.swings.JComponents.PanelDegradado();
         labelHeader1 = new com.mytools.swings.JComponents.Label.LabelHeader();
+        scrollPanelTransparente1 = new com.mytools.swings.JComponents.ScrollPanelTransparente();
+        tree = new com.mytools.swings.JComponents.tree.Tree();
+        mesajeDescripcyion = new com.mytools.swings.JComponents.Label.LabelDescripcion();
+        Eliminar = new com.mytools.swings.JComponents.BotonIcono();
+        Nuevo = new com.mytools.swings.JComponents.BotonIcono();
+        scrollPanel1 = new com.mytools.swings.JComponents.ScrollPanel();
+        textAreaNota = new com.mytools.swings.JComponents.TextAreaTransparente();
+        TitleNodo = new com.mytools.swings.JComponents.Label.LabelHeader();
+        showMenu = new javax.swing.JLabel();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(700, 600));
-
-        TextNota.setColumns(20);
-        TextNota.setRows(5);
-        TextNota.setText("");
-        TextNota.setToolTipText("");
-        scrollPanel1.setViewportView(TextNota);
 
         labelTitle1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         labelTitle1.setText("  Hora Actual");
@@ -162,9 +186,9 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
             PanelHoraActualkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelHoraActualkLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(PanelHoraActualkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(PanelHoraActualkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(HoraActual, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelTitle1, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE))
+                    .addComponent(labelTitle1, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
                 .addContainerGap())
         );
         PanelHoraActualkLayout.setVerticalGroup(
@@ -172,8 +196,8 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
             .addGroup(PanelHoraActualkLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(labelTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(HoraActual, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(HoraActual, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -182,6 +206,18 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
 
         HoraRestante.setFont(new java.awt.Font("Cascadia Mono", 1, 36)); // NOI18N
 
+        AlarmaConfig.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AlarmaConfigActionPerformed(evt);
+            }
+        });
+
+        AlarmaDetener.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AlarmaDetenerActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PanelHoraRestanteLayout = new javax.swing.GroupLayout(PanelHoraRestante);
         PanelHoraRestante.setLayout(PanelHoraRestanteLayout);
         PanelHoraRestanteLayout.setHorizontalGroup(
@@ -189,50 +225,27 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
             .addGroup(PanelHoraRestanteLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanelHoraRestanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelTitle2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-                    .addComponent(HoraRestante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(HoraRestante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(PanelHoraRestanteLayout.createSequentialGroup()
+                        .addComponent(labelTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(AlarmaDetener, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(AlarmaConfig, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)))
                 .addContainerGap())
         );
         PanelHoraRestanteLayout.setVerticalGroup(
             PanelHoraRestanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelHoraRestanteLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(labelTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(PanelHoraRestanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(AlarmaConfig, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(AlarmaDetener, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                    .addComponent(labelTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(HoraRestante, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+                .addComponent(HoraRestante, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-        );
-
-        labelTitle3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        labelTitle3.setText("Alarma");
-
-        btnDetenerAlarma.setBackground(new java.awt.Color(204, 204, 204));
-        btnDetenerAlarma.setText("Detener");
-        btnDetenerAlarma.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDetenerAlarmaActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout PanelHoraRestante1Layout = new javax.swing.GroupLayout(PanelHoraRestante1);
-        PanelHoraRestante1.setLayout(PanelHoraRestante1Layout);
-        PanelHoraRestante1Layout.setHorizontalGroup(
-            PanelHoraRestante1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelHoraRestante1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(PanelHoraRestante1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelTitle3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-                    .addComponent(btnDetenerAlarma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        PanelHoraRestante1Layout.setVerticalGroup(
-            PanelHoraRestante1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelHoraRestante1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(labelTitle3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(btnDetenerAlarma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44))
         );
 
         javax.swing.GroupLayout panelDegradado1Layout = new javax.swing.GroupLayout(panelDegradado1);
@@ -240,18 +253,15 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
         panelDegradado1Layout.setHorizontalGroup(
             panelDegradado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelDegradado1Layout.createSequentialGroup()
-                .addGroup(panelDegradado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDegradado1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(PanelHoraActualk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(PanelHoraRestante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(PanelHoraRestante1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelDegradado1Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(RelojAlarma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap()
+                .addComponent(PanelHoraActualk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PanelHoraRestante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDegradado1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(RelojAlarma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18))
         );
         panelDegradado1Layout.setVerticalGroup(
             panelDegradado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -259,62 +269,165 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
                 .addContainerGap()
                 .addGroup(panelDegradado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(PanelHoraActualk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(PanelHoraRestante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(PanelHoraRestante1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(PanelHoraRestante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(RelojAlarma, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
+                .addComponent(RelojAlarma, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
                 .addGap(19, 19, 19))
         );
 
-        labelHeader1.setText("Apuntes / Notas");
+        labelHeader1.setText("Notas");
+
+        tree.setFont(new java.awt.Font("Segoe UI Semibold", 1, 1815)); // NOI18N
+        scrollPanelTransparente1.setViewportView(tree);
+
+        mesajeDescripcyion.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+
+        Eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarActionPerformed(evt);
+            }
+        });
+
+        Nuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NuevoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout menuTreeLayout = new javax.swing.GroupLayout(menuTree);
+        menuTree.setLayout(menuTreeLayout);
+        menuTreeLayout.setHorizontalGroup(
+            menuTreeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(labelHeader1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuTreeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(menuTreeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(scrollPanelTransparente1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(menuTreeLayout.createSequentialGroup()
+                        .addComponent(Eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+            .addGroup(menuTreeLayout.createSequentialGroup()
+                .addGap(62, 62, 62)
+                .addComponent(mesajeDescripcyion, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        menuTreeLayout.setVerticalGroup(
+            menuTreeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(menuTreeLayout.createSequentialGroup()
+                .addComponent(labelHeader1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(scrollPanelTransparente1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGap(15, 15, 15)
+                .addGroup(menuTreeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(mesajeDescripcyion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        textAreaNota.setColumns(20);
+        textAreaNota.setRows(5);
+        scrollPanel1.setViewportView(textAreaNota);
+
+        TitleNodo.setText("Notas");
+
+        showMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                showMenuMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                showMenuMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                showMenuMousePressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addComponent(menuTree, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(showMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(scrollPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(labelHeader1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, Short.MAX_VALUE)))
+                    .addComponent(TitleNodo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelDegradado1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelDegradado1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(labelHeader1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(panelDegradado1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(menuTree, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(TitleNodo, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(scrollPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE))
+            .addComponent(showMenu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnDetenerAlarmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetenerAlarmaActionPerformed
+    private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
+        getTree().eliminarArchivoODirectorioSeleccionado();
+    }//GEN-LAST:event_EliminarActionPerformed
+
+    private void NuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NuevoActionPerformed
+        addFileCarpet fileCarpet = new addFileCarpet(dashboard, getTree(), true);
+        fileCarpet.setVisible(true);
+    }//GEN-LAST:event_NuevoActionPerformed
+
+    private void showMenuMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showMenuMouseEntered
+        showMenu.setIcon(new FlatSVGIcon(menuTree.isVisible() ? "resource/chevron-left-solid-selected.svg" : "resource/chevron-right-solid-selected.svg", 13, 20));
+    }//GEN-LAST:event_showMenuMouseEntered
+
+    private void showMenuMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showMenuMouseExited
+        showMenu.setIcon(new FlatSVGIcon(menuTree.isVisible() ? "resource/chevron-left-solid.svg" : "resource/chevron-right-solid.svg", 13, 20));
+    }//GEN-LAST:event_showMenuMouseExited
+
+    private void showMenuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showMenuMousePressed
+        toggleMenu();
+    }//GEN-LAST:event_showMenuMousePressed
+
+    private void AlarmaConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AlarmaConfigActionPerformed
         // TODO add your handling code here:
+        configAlarm = new ConfigAlarm(dashboard, alarma, true);
+        configAlarm.setVisible(true);
+    }//GEN-LAST:event_AlarmaConfigActionPerformed
+
+    private void AlarmaDetenerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AlarmaDetenerActionPerformed
         if (alarmaActiva) {
             alarma.getTimbre().detener();
-            System.out.println("detener");
         }
-    }//GEN-LAST:event_btnDetenerAlarmaActionPerformed
+    }//GEN-LAST:event_AlarmaDetenerActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.mytools.swings.JComponents.BotonIcono AlarmaConfig;
+    private com.mytools.swings.JComponents.BotonIcono AlarmaDetener;
+    private com.mytools.swings.JComponents.BotonIcono Eliminar;
     private com.mytools.swings.JComponents.Label.LabelHeader HoraActual;
     private com.mytools.swings.JComponents.Label.LabelHeader HoraRestante;
+    private com.mytools.swings.JComponents.BotonIcono Nuevo;
     private com.mytools.swings.JComponents.PanelDegradado PanelHoraActualk;
     private com.mytools.swings.JComponents.PanelDegradado PanelHoraRestante;
-    private com.mytools.swings.JComponents.PanelDegradado PanelHoraRestante1;
     private com.mytools.swings.JComponents.Label.LabelLogo RelojAlarma;
-    private com.mytools.swings.JComponents.TextAreaTransparente TextNota;
-    private com.mytools.swings.JComponents.BotonColor btnDetenerAlarma;
+    private com.mytools.swings.JComponents.Label.LabelHeader TitleNodo;
     private com.mytools.swings.JComponents.Label.LabelHeader labelHeader1;
     private com.mytools.swings.JComponents.Label.LabelTitle labelTitle1;
     private com.mytools.swings.JComponents.Label.LabelTitle labelTitle2;
-    private com.mytools.swings.JComponents.Label.LabelTitle labelTitle3;
+    private com.mytools.swings.JComponents.PanelDegradado menuTree;
+    private com.mytools.swings.JComponents.Label.LabelDescripcion mesajeDescripcyion;
     private com.mytools.swings.JComponents.PanelDegradado panelDegradado1;
     private com.mytools.swings.JComponents.ScrollPanel scrollPanel1;
+    private com.mytools.swings.JComponents.ScrollPanelTransparente scrollPanelTransparente1;
+    private javax.swing.JLabel showMenu;
+    private com.mytools.swings.JComponents.TextAreaTransparente textAreaNota;
+    private com.mytools.swings.JComponents.tree.Tree tree;
     // End of variables declaration//GEN-END:variables
 }

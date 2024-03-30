@@ -1,6 +1,9 @@
 package com.mytools.utils;
 
 import com.mytools.ilib.Dashboard;
+import static com.mytools.ilib.Dashboard.alarma;
+import com.mytools.utils.Timbre;
+import com.mytools.views.detenerAlarma;
 import java.util.List;
 import java.awt.Toolkit;
 import java.util.ArrayList;
@@ -8,7 +11,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JOptionPane;
 
-public class Alarma{
+public class Alarma {
 
     public Timbre getTimbre() {
         return timbre;
@@ -77,11 +80,13 @@ public class Alarma{
     private int horaInicio;
     private int minutoInicio;
     private int segundoInicio;
-    
+
     int ciclosCompletados;
 
+    private Dashboard dashboard;
 
     public interface AlarmaListener {
+
         void cicloCompletado(int ciclo);
     }
 
@@ -97,9 +102,11 @@ public class Alarma{
         }
     }
 
+
     public Alarma() {
         timer = new Timer();
         timbre = new Timbre();
+
     }
 
     public void inicir(int hora, int minuto, int segundo) {
@@ -145,12 +152,13 @@ public class Alarma{
                 ciclosCompletados++;
                 notifyListeners(ciclosCompletados);
                 getTimbre().inicir();
+                
                 //getTimbre().panel();
                 System.out.println("¡¡¡ALARMA!!!");
-                
+
                 //alarmaSe(1);
                 tiempoRestante = INTERVALO; // Reiniciar el tiempo restante
-                
+
             }
         }
 

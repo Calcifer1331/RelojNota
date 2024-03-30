@@ -155,9 +155,12 @@ public class addFileCarpet extends javax.swing.JDialog {
     private void AceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarActionPerformed
         if(fileRBtn.isSelected()){
             tree.crearArchivoEnCarpetaSeleccionada(name.getText(), mesaje);
+            dispose();
         }else if(carpetaRBtn.isSelected()){
             tree.crearCarpetaEnCarpetaSeleccionada(name.getText());
+            dispose();
         }
+        
     }//GEN-LAST:event_AceptarActionPerformed
 
     private void CerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CerrarActionPerformed
