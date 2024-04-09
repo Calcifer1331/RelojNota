@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="AplicacionDeEscritorio">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/flatlaf-demo-3.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/svgSalamander-1.1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/flatlaf-3.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jsvg-1.2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/flatlaf-extras-3.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
