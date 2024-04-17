@@ -1,6 +1,7 @@
 package com.mytools.ilib;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.mytools.swings.JComponents.Alarmas.Alarma_Timbre;
 import com.mytools.utils.Alarma;
 import com.mytools.views.ConfigAlarma;
@@ -10,14 +11,23 @@ import com.mytools.views.detenerAlarma;
 import com.mytools.views.prueva;
 import com.mytools.views.prueva1;
 import com.mytools.views.pruevaAlarma;
+import java.awt.AWTException;
 import java.awt.BorderLayout;
 import static java.awt.Frame.MAXIMIZED_BOTH;
+import java.awt.Image;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
+import java.awt.TrayIcon;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
@@ -29,12 +39,15 @@ public class Dashboard extends javax.swing.JFrame {
     private Configuracion configuracion;
     private pruevaAlarma pruAlarma;
     private List<Alarma_Timbre> alarmas = new ArrayList<Alarma_Timbre>();
+    private TrayIcon trayIcon;
 
     public Dashboard() {
         initComponents();
         alarma = new Alarma();
         Init();
     }
+    
+
 
     private void Init() {
         alarma.setHoraInicio(2);
@@ -49,15 +62,15 @@ public class Dashboard extends javax.swing.JFrame {
         alarmas.add(alarma_Timbre);
         System.out.println(alarmas.get(0).getNombre());
         pruAlarma = new pruevaAlarma(alarmas);
-
-        botonMenuConfiguracion.setSvgImage("resource/IconMenu/Settings.svg");
+ShoJPanel(inicio);
+        /*botonMenuConfiguracion.setSvgImage("resource/IconMenu/Settings.svg");
         botonMenuConfgReloj.setSvgImage("resource/IconMenu/reloj.svg");
         botonMenuHome.setSvgImage("resource/IconMenu/Home.svg");
         try {
             SelectorMenu(inicio, 1);
         } catch (Exception ex) {
             Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
     }
 
     public static void ShoJPanel(JPanel p) {
@@ -72,7 +85,7 @@ public class Dashboard extends javax.swing.JFrame {
 
     }
 
-    private void SelectorMenu(JPanel Pagina, int indice) {
+    /*private void SelectorMenu(JPanel Pagina, int indice) {
         // Deseleccionar todos los botones
         botonMenuConfiguracion.setSelecionado(false);
         botonMenuConfgReloj.setSelecionado(false);
@@ -96,29 +109,17 @@ public class Dashboard extends javax.swing.JFrame {
             alarma.addAlarmaListener((Alarma.AlarmaListener) Pagina);
         }
         ShoJPanel(Pagina);
-    }
+    }*/
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         panelDegradadoBack1 = new com.mytools.swings.JComponents.PanelDegradadoBack();
-        botonMenuConfiguracion = new com.mytools.swings.JComponents.BotonMenu();
         scrollPanelTransparente1 = new com.mytools.swings.JComponents.ScrollPanelTransparente();
         content = new javax.swing.JPanel();
-        panelDegradado1 = new com.mytools.swings.JComponents.PanelDegradado();
-        botonMenuConfgReloj = new com.mytools.swings.JComponents.BotonMenu();
-        botonMenuHome = new com.mytools.swings.JComponents.BotonMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        botonMenuConfiguracion.setGrosorBarra(3);
-        botonMenuConfiguracion.setRedondeadoBarra(3);
-        botonMenuConfiguracion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonMenuConfiguracionActionPerformed(evt);
-            }
-        });
 
         scrollPanelTransparente1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
@@ -137,62 +138,20 @@ public class Dashboard extends javax.swing.JFrame {
 
         scrollPanelTransparente1.setViewportView(content);
 
-        javax.swing.GroupLayout panelDegradado1Layout = new javax.swing.GroupLayout(panelDegradado1);
-        panelDegradado1.setLayout(panelDegradado1Layout);
-        panelDegradado1Layout.setHorizontalGroup(
-            panelDegradado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        panelDegradado1Layout.setVerticalGroup(
-            panelDegradado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        botonMenuConfgReloj.setGrosorBarra(3);
-        botonMenuConfgReloj.setRedondeadoBarra(3);
-        botonMenuConfgReloj.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonMenuConfgRelojActionPerformed(evt);
-            }
-        });
-
-        botonMenuHome.setGrosorBarra(3);
-        botonMenuHome.setRedondeadoBarra(3);
-        botonMenuHome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonMenuHomeActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout panelDegradadoBack1Layout = new javax.swing.GroupLayout(panelDegradadoBack1);
         panelDegradadoBack1.setLayout(panelDegradadoBack1Layout);
         panelDegradadoBack1Layout.setHorizontalGroup(
             panelDegradadoBack1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDegradadoBack1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelDegradadoBack1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(scrollPanelTransparente1, javax.swing.GroupLayout.DEFAULT_SIZE, 694, Short.MAX_VALUE)
-                    .addGroup(panelDegradadoBack1Layout.createSequentialGroup()
-                        .addComponent(panelDegradado1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botonMenuHome, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botonMenuConfgReloj, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botonMenuConfiguracion, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(scrollPanelTransparente1, javax.swing.GroupLayout.DEFAULT_SIZE, 694, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelDegradadoBack1Layout.setVerticalGroup(
             panelDegradadoBack1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelDegradadoBack1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDegradadoBack1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelDegradadoBack1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(botonMenuConfiguracion, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                    .addComponent(panelDegradado1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(botonMenuConfgReloj, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                    .addComponent(botonMenuHome, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
-                .addGap(6, 6, 6)
-                .addComponent(scrollPanelTransparente1, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+                .addComponent(scrollPanelTransparente1, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -210,20 +169,6 @@ public class Dashboard extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void botonMenuConfiguracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMenuConfiguracionActionPerformed
-        SelectorMenu(configuracion, 2);
-
-    }//GEN-LAST:event_botonMenuConfiguracionActionPerformed
-
-    private void botonMenuConfgRelojActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMenuConfgRelojActionPerformed
-        
-    }//GEN-LAST:event_botonMenuConfgRelojActionPerformed
-
-    private void botonMenuHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMenuHomeActionPerformed
-        inicio.getTree().actualizar(inicio.getTree().getFolder());
-        SelectorMenu(inicio, 1);
-    }//GEN-LAST:event_botonMenuHomeActionPerformed
 
     public static void main(String args[]) {
 
@@ -243,11 +188,7 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.mytools.swings.JComponents.BotonMenu botonMenuConfgReloj;
-    private com.mytools.swings.JComponents.BotonMenu botonMenuConfiguracion;
-    private com.mytools.swings.JComponents.BotonMenu botonMenuHome;
     public static javax.swing.JPanel content;
-    private com.mytools.swings.JComponents.PanelDegradado panelDegradado1;
     public com.mytools.swings.JComponents.PanelDegradadoBack panelDegradadoBack1;
     private com.mytools.swings.JComponents.ScrollPanelTransparente scrollPanelTransparente1;
     // End of variables declaration//GEN-END:variables
