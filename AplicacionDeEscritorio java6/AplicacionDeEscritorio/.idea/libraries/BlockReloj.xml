@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="BlockReloj">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/BlockReloj.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
