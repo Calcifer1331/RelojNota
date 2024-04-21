@@ -54,7 +54,7 @@ public class ConfigAlarm extends javax.swing.JDialog {
     }
 
     private void init() {
-        spinnerHoras.setValue(alarma.getHoraInicio());
+        spinnerHoras.setValue((Integer) alarma.getHoraInicio());
         spinnerMinutos.setValue(alarma.getMinutoInicio());
         spinnerSegundos.setValue(alarma.getSegundoInicio());
 
@@ -354,11 +354,16 @@ public class ConfigAlarm extends javax.swing.JDialog {
 
     private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
         alarma.detener();
-        alarma.inicir((int) spinnerHoras.getValue(), (int) spinnerMinutos.getValue(), (int) spinnerSegundos.getValue());
-        alarma.getTimbre().setHoraInicio((int) spinnerHorasTimbre1.getValue());
-        alarma.getTimbre().setMinutoInicio((int) spinnerMinutosTimbre1.getValue());
-        alarma.getTimbre().setSegundoInicio((int) spinnerSegundosTimbre1.getValue());
+        alarma.inicir(Integer.parseInt(spinnerHoras.getValue().toString()), Integer.parseInt(spinnerMinutos.getValue().toString()), Integer.parseInt(spinnerSegundos.getValue().toString()));
+
+        alarma.getTimbre().setHoraInicio(Integer.parseInt(spinnerHorasTimbre1.getValue().toString()));
+
+        alarma.getTimbre().setMinutoInicio(Integer.parseInt(spinnerMinutosTimbre1.getValue().toString()));
+
+        alarma.getTimbre().setSegundoInicio(Integer.parseInt(spinnerSegundosTimbre1.getValue().toString()));
+
         Dashboard.alarma = alarma;
+
     }//GEN-LAST:event_GuardarActionPerformed
 
     private void CerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CerrarActionPerformed

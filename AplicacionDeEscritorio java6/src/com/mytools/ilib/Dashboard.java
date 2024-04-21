@@ -1,8 +1,6 @@
 package com.mytools.ilib;
 
-import com.mytools.swings.JComponents.Alarmas.Alarma_Timbre;
 import com.mytools.utils.Alarma;
-import com.mytools.views.ConfigAlarma;
 import com.mytools.views.Inicio;
 import java.awt.BorderLayout;
 import static java.awt.Frame.MAXIMIZED_BOTH;
