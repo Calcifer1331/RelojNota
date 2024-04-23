@@ -7,6 +7,7 @@ package com.mytools.swings.JComponents;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
 
 public class TextAreaTransparente extends JTextArea {
 
@@ -21,5 +22,6 @@ public class TextAreaTransparente extends JTextArea {
         setBackground(new Color(0, 0, 0, 0));
         setFont(new Font("Segoe UI Semibold", 0, 14));
         setForeground(new Color(250, 250, 250));
+        setBorder(new EmptyBorder(10, 10, 10, 10));
     }
 }

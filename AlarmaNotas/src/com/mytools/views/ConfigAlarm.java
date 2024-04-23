@@ -4,6 +4,8 @@ import com.mytools.ilib.Dashboard;
 import com.mytools.utils.Alarma;
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.net.URL;
 import javax.swing.ImageIcon;
 
@@ -20,6 +22,7 @@ public class ConfigAlarm extends javax.swing.JDialog {
         Cerrar.setIcon(setImage("/resource/Close.png"));
         Guardar.setIcon(setImage("/resource/Like.png"));
         Detener.setIcon(setImage("/resource/stop.png"));
+        
         if (alarma != null) {
             init();
         }
@@ -61,6 +64,7 @@ public class ConfigAlarm extends javax.swing.JDialog {
         spinnerHorasTimbre1.setValue(alarma.getTimbre().getHoraInicio());
         spinnerMinutosTimbre1.setValue(alarma.getTimbre().getMinutoInicio());
         spinnerSegundosTimbre1.setValue(alarma.getTimbre().getSegundoInicio());
+        
     }
 
     @SuppressWarnings("unchecked")

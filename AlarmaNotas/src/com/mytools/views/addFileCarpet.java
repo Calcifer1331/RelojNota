@@ -82,12 +82,13 @@ public class addFileCarpet extends javax.swing.JDialog {
         panelDegradado1.setOpacidadFinal(80);
         panelDegradado1.setOpacidadInical(80);
 
-        name.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        name.setFont(new java.awt.Font("Segoe UI Semibold", 0, 20)); // NOI18N
         name.setPlaceholderText("Nombre del Componente");
 
         buttonGroup1.add(fileRBtn);
         fileRBtn.setSelected(true);
         fileRBtn.setText("Nota");
+        fileRBtn.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         fileRBtn.setName("archivo"); // NOI18N
         fileRBtn.setOpaque(false);
         fileRBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -98,6 +99,7 @@ public class addFileCarpet extends javax.swing.JDialog {
 
         buttonGroup1.add(carpetaRBtn);
         carpetaRBtn.setText("Gupo");
+        carpetaRBtn.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         carpetaRBtn.setName("carpeta"); // NOI18N
         carpetaRBtn.setOpaque(false);
         carpetaRBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -132,10 +134,10 @@ public class addFileCarpet extends javax.swing.JDialog {
                 .addContainerGap())
             .addGroup(panelDegradado1Layout.createSequentialGroup()
                 .addGap(44, 44, 44)
-                .addComponent(fileRBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addComponent(carpetaRBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addComponent(fileRBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(carpetaRBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
+                .addGap(271, 271, 271))
             .addGroup(panelDegradado1Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(panelDegradado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,8 +159,8 @@ public class addFileCarpet extends javax.swing.JDialog {
                 .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(panelDegradado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fileRBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(carpetaRBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fileRBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(carpetaRBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addGroup(panelDegradado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(mesaje, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -182,7 +184,7 @@ public class addFileCarpet extends javax.swing.JDialog {
             .addGroup(panelDegradadoBack1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panelDegradado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -201,11 +203,11 @@ public class addFileCarpet extends javax.swing.JDialog {
 
     private void fileRBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileRBtnActionPerformed
         // TODO add your handling code here:
-//        name.setImagen(new ImageIcon(getClass().getResource("resource/File.png")));
+        name.setImagen(setImageMin("/resource/File.png"));
     }//GEN-LAST:event_fileRBtnActionPerformed
 
     private void carpetaRBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carpetaRBtnActionPerformed
-//        name.setImagen(new ImageIcon(getClass().getResource("resource/Folder null.png")));
+        name.setImagen(setImageMin("/resource/Folder null.png"));
     }//GEN-LAST:event_carpetaRBtnActionPerformed
 
     private void AceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarActionPerformed

@@ -55,6 +55,7 @@ public class TextFildIcono extends javax.swing.JPanel {
 
         panelBack.setBorderRedondeado(40);
 
+        campo.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         campo.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 campoFocusGained(evt);
@@ -88,7 +89,7 @@ public class TextFildIcono extends javax.swing.JPanel {
         panelBackLayout.setVerticalGroup(
             panelBackLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(LabelIcono, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-            .addComponent(campo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(campo, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

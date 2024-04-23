@@ -2,13 +2,29 @@ package com.mytools.ilib;
 
 import com.mytools.utils.Alarma;
 import com.mytools.views.Inicio;
+import com.mytools.views.NewJPanel;
+import java.awt.AWTException;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import static java.awt.Frame.MAXIMIZED_BOTH;
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
 import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 public class Dashboard extends javax.swing.JFrame {
 
@@ -19,7 +35,61 @@ public class Dashboard extends javax.swing.JFrame {
 
     public Dashboard() {
         initComponents();
+        initTrayIcon();
+        ImageIcon icon = new ImageIcon(getClass().getResource("/resource/IconoReloj/reloj300.png"));
+        setIconImage(icon.getImage());
         Init();
+    }
+
+    private void initTrayIcon() {
+        if (SystemTray.isSupported()) {
+            SystemTray tray = SystemTray.getSystemTray();
+            Image image = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/resource/IconoReloj/reloj16.png"));
+            ActionListener listener = new ActionListener() {
+
+                public void actionPerformed(ActionEvent e) {
+                    setVisible(true);
+                    setExtendedState(MAXIMIZED_BOTH);
+                }
+            };
+            PopupMenu popup = new PopupMenu();
+            MenuItem AbrirtItem = new MenuItem("Abrir");
+            AbrirtItem.addActionListener(listener);
+            MenuItem CerrarItem = new MenuItem("Cerrar");
+            CerrarItem.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent e) {
+                    setVisible(false);
+                }
+            });
+            MenuItem StropItem = new MenuItem("Detener Alarma");
+            StropItem.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent e) {
+                    inicio.getBotonDetener().doClick();
+                }
+            });
+
+            popup.add(AbrirtItem);
+            popup.add(CerrarItem);
+            popup.add(StropItem);
+
+            trayIcon = new TrayIcon(image, "Dashboard", popup);
+            trayIcon.setImageAutoSize(true);
+
+            try {
+                tray.add(trayIcon);
+            } catch (AWTException e) {
+                System.err.println("Error al agregar el icono de la bandeja del sistema.");
+            }
+
+            addWindowListener(new WindowAdapter() {
+
+                public void windowIconified(WindowEvent e) {
+                    setVisible(false);
+                }
+            });
+        }
     }
 
     private void Init() {
@@ -44,10 +114,12 @@ public class Dashboard extends javax.swing.JFrame {
         content.revalidate();
         content.repaint();
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
         panelDegradadoBack1 = new com.mytools.swings.JComponents.PanelDegradadoBack();
         scrollPanelTransparente1 = new com.mytools.swings.JComponents.ScrollPanelTransparente();
         content = new javax.swing.JPanel();
@@ -100,12 +172,21 @@ public class Dashboard extends javax.swing.JFrame {
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     public static void main(String args[]) {
-
+        try {
+            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(" If Nimbus is not available, you can set the GUI to another look and feel.");
+        }
         java.awt.EventQueue.invokeLater(new Runnable() {
+
             public void run() {
                 Dashboard d = new Dashboard();
                 d.setVisible(true);
@@ -113,9 +194,9 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JPanel content;
+    private javax.swing.JPopupMenu jPopupMenu1;
     public com.mytools.swings.JComponents.PanelDegradadoBack panelDegradadoBack1;
     private com.mytools.swings.JComponents.ScrollPanelTransparente scrollPanelTransparente1;
     // End of variables declaration//GEN-END:variables

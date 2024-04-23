@@ -2,6 +2,7 @@
 package com.mytools.swings.JComponents;
 
 import java.awt.Color;
+import javax.swing.BorderFactory;
 import javax.swing.JScrollPane;
 public class ScrollPanelTransparente extends JScrollPane{
     public ScrollPanelTransparente() {
@@ -10,6 +11,7 @@ public class ScrollPanelTransparente extends JScrollPane{
         getViewport().setOpaque(false);
         setHorizontalScrollBar(null);
         setBorder(null);
+        setViewportBorder(null);
     }
     
 }

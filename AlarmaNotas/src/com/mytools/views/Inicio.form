@@ -1,6 +1,14 @@
 <?xml version="1.1" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <NonVisualComponents>
+    <Container class="javax.swing.JPopupMenu" name="jPopupMenu1">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+    </Container>
+  </NonVisualComponents>
   <Properties>
     <Property name="opaque" type="boolean" value="false"/>
     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -63,7 +71,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="RelojAlarma" pref="389" max="32767" attributes="0"/>
+                      <Component id="RelojAlarma" pref="446" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Component id="PanelHoraActualk" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -132,7 +140,7 @@
             <Component class="com.mytools.swings.JComponents.Label.LabelHeader" name="HoraActual">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Cascadia Mono" size="36" style="1"/>
+                  <Font name="Cascadia Mono" size="48" style="1"/>
                 </Property>
               </Properties>
             </Component>
@@ -146,9 +154,9 @@
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="HoraRestante" pref="190" max="32767" attributes="0"/>
+                          <Component id="HoraRestante" pref="247" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Component id="labelTitle2" pref="100" max="32767" attributes="0"/>
+                              <Component id="labelTitle2" pref="157" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="AlarmaDetener" min="-2" pref="38" max="-2" attributes="0"/>
                               <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -189,7 +197,7 @@
             <Component class="com.mytools.swings.JComponents.Label.LabelHeader" name="HoraRestante">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Cascadia Mono" size="36" style="1"/>
+                  <Font name="Cascadia Mono" size="48" style="1"/>
                 </Property>
               </Properties>
             </Component>
@@ -212,23 +220,20 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="labelHeader1" alignment="1" pref="305" max="32767" attributes="0"/>
+              <Component id="labelHeader1" alignment="1" pref="329" max="32767" attributes="0"/>
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="scrollPanelTransparente1" alignment="1" pref="281" max="32767" attributes="0"/>
+                      <Component id="scrollPanelTransparente1" alignment="1" pref="305" max="32767" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="Eliminar" min="-2" pref="50" max="-2" attributes="0"/>
-                          <EmptySpace pref="181" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="mesajeDescripcyion" min="-2" pref="195" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="Nuevo" min="-2" pref="50" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
-                  <Component id="mesajeDescripcyion" min="-2" pref="195" max="-2" attributes="0"/>
-                  <EmptySpace pref="48" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -238,13 +243,13 @@
                   <Component id="labelHeader1" min="-2" pref="38" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="scrollPanelTransparente1" pref="0" max="32767" attributes="0"/>
-                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="mesajeDescripcyion" alignment="1" min="-2" max="-2" attributes="0"/>
-                      <Component id="Eliminar" alignment="1" min="-2" pref="50" max="-2" attributes="0"/>
-                      <Component id="Nuevo" alignment="1" min="-2" pref="53" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="Eliminar" pref="53" max="32767" attributes="1"/>
+                      <Component id="Nuevo" alignment="1" pref="53" max="32767" attributes="1"/>
+                      <Component id="mesajeDescripcyion" alignment="1" min="-2" pref="28" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -271,6 +276,9 @@
                   <Font name="Segoe UI Semibold" size="1815" style="1"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="treeMouseReleased"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -279,14 +287,14 @@
             <Property name="horizontalAlignment" type="int" value="2"/>
           </Properties>
         </Component>
-        <Component class="com.mytools.swings.JComponents.BotonIcono" name="Eliminar">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EliminarActionPerformed"/>
-          </Events>
-        </Component>
         <Component class="com.mytools.swings.JComponents.BotonIcono" name="Nuevo">
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="NuevoActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="com.mytools.swings.JComponents.BotonIcono" name="Eliminar">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EliminarActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

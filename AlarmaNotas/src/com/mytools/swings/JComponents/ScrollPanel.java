@@ -57,6 +57,7 @@ public class ScrollPanel extends JScrollPane {
         setOpacidad((int)(PD.getOpacidadInical()+PD.getOpacidadFinal())/2);
         setBorderRedondeado(PD.getBorderRedondeado());
         setGrosorBorde(PD.getGrosorBorde());
+        setViewportBorder(null);
     }
     
     private void cargarConfiguracion(){
@@ -69,6 +70,7 @@ public class ScrollPanel extends JScrollPane {
         setOpacidad(60);
         setBorderRedondeado(30);
         setGrosorBorde(1);
+        setViewportBorder(null);
     }
 
     protected void paintComponent(Graphics grphcs) {
