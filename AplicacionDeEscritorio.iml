@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="AplicacionDeEscritorio2" level="project" />
+    <orderEntry type="library" name="AlarmaNota2" level="project" />
+    <orderEntry type="library" name="AlarmaNota4" level="project" />
+    <orderEntry type="library" name="Gestor para paguina web4" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" name="AlarmaNota" level="project" />
+    <orderEntry type="library" name="AplicacionDeEscritorio3" level="project" />
+    <orderEntry type="library" name="Gestor para paguina web3" level="project" />
+    <orderEntry type="library" name="Gestor para paguina web" level="project" />
+    <orderEntry type="library" name="AlarmaNota3" level="project" />
+    <orderEntry type="library" name="lib2" level="project" />
+    <orderEntry type="library" name="lib3" level="project" />
+    <orderEntry type="library" name="AplicacionDeEscritorio" level="project" />
+    <orderEntry type="library" name="Gestor para paguina web2" level="project" />
+    <orderEntry type="library" name="AlarmaNotas" level="project" />
+  </component>
+</module>
