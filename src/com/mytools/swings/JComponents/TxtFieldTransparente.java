@@ -1,6 +1,5 @@
 package com.mytools.swings.JComponents;
 
-import com.mytools.utils.ConfiguracionArchivo;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -18,7 +17,6 @@ public class TxtFieldTransparente extends JTextField {
 
     public TxtFieldTransparente() {
         cargarConfiguracion();
-        ConfiguracionArchivo.getForeground("labelText", this);
     }
 
     private void cargarConfiguracion() {

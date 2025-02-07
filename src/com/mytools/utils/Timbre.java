@@ -2,7 +2,6 @@ package com.mytools.utils;
 
 import com.mytools.ilib.Dashboard;
 import static com.mytools.ilib.Dashboard.alarma;
-import com.mytools.views.detenerAlarma;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -91,7 +90,7 @@ private boolean iniciado;
         void cicloCompletado(boolean activo);
     }
 
-    private List<TimbreListener> listeners = new ArrayList<>();
+    private List<TimbreListener> listeners = new ArrayList<TimbreListener>();
 
     public void addTimbreListener(TimbreListener listener) {
         listeners.add(listener);

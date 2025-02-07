@@ -1,20 +1,12 @@
 package com.mytools.swings;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.mytools.swings.JComponents.BotonColor;
-import com.mytools.swings.JComponents.PanelDegradado;
-import com.mytools.swings.JComponents.PanelDegradadoWhite;
-import com.mytools.utils.ConfiguracionArchivo;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
-import static java.awt.image.ImageObserver.HEIGHT;
-import static java.awt.image.ImageObserver.WIDTH;
 import javax.swing.JPanel;
 
 public class PanelDegradadoLabelTitle extends JPanel {
@@ -92,7 +84,6 @@ public class PanelDegradadoLabelTitle extends JPanel {
     private boolean selecionado;
     private int grosorBarra;
     private int redondeadoBarra;
-    private FlatSVGIcon svgIcon;
     private boolean exitado;
     private boolean press = false;
 
@@ -100,7 +91,6 @@ public class PanelDegradadoLabelTitle extends JPanel {
         initComponents();
         cargarConfigurarcion();
         BotonColor bc = new BotonColor();
-        ConfiguracionArchivo.getBoton("botonMenu", bc);
         cargarConfigurarcion(bc);
     }
 

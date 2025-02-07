@@ -1,18 +1,19 @@
 package com.mytools.swings.JComponents;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
-import com.mytools.utils.ConfiguracionArchivo;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.net.URL;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.Timer;
 
@@ -100,10 +101,8 @@ public class BotonIcono extends JButton {
         this.grosorBorde = grosorBorde;
     }
 
-    public void setIconSvg(String image) {
-        this.image = image;
-        setIcon(new FlatSVGIcon(image, getMAX_ICON_SIZE(), getMAX_ICON_SIZE()));
-    }
+    
+
     private int opacidad;
     private int borderRedondeado;
     private int grosorBorde;
@@ -118,7 +117,6 @@ public class BotonIcono extends JButton {
 
     public BotonIcono() {
         cargarConfigurarcion();
-        ConfiguracionArchivo.getBoton("botonMenu", this);
         setText("");
     }
 
@@ -142,6 +140,7 @@ public class BotonIcono extends JButton {
         setIsSeleccionable(false);
 
         addMouseListener(new MouseAdapter() {
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 // Cambiar el color de fondo cuando el mouse entra al botón
@@ -174,7 +173,6 @@ public class BotonIcono extends JButton {
             public void mouseReleased(MouseEvent e) {
                 setPress(false);
             }
-
         });
     }
 
@@ -212,5 +210,4 @@ public class BotonIcono extends JButton {
             g2.draw(new RoundRectangle2D.Double(getGrosorBorde() / 2.0, getGrosorBorde() / 2.0, width - getGrosorBorde(), height - getGrosorBorde(), getBorderRedondeado(), getBorderRedondeado()));
         }
     }
-
 }

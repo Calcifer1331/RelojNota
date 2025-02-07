@@ -1,6 +1,5 @@
 
 package com.mytools.swings.JComponents;
-import com.mytools.utils.ConfiguracionArchivo;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
@@ -61,7 +60,6 @@ public class PanelMenu extends JPanel{
     public PanelMenu() {
         cargarConfiguracion();
         PanelDegradado PD= new PanelDegradado();
-        ConfiguracionArchivo.getPanelDegradado(PD);
         setOpacidadInical(PD.getOpacidadInical());
         setOpacidadFinal(PD.getOpacidadFinal());
         setBorderRedondeado(PD.getBorderRedondeado());

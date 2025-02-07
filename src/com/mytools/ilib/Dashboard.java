@@ -1,33 +1,12 @@
 package com.mytools.ilib;
 
-import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.extras.FlatSVGIcon;
-import com.mytools.swings.JComponents.Alarmas.Alarma_Timbre;
 import com.mytools.utils.Alarma;
-import com.mytools.views.ConfigAlarma;
-import com.mytools.views.Configuracion;
 import com.mytools.views.Inicio;
-import com.mytools.views.detenerAlarma;
-import com.mytools.views.prueva;
-import com.mytools.views.prueva1;
-import com.mytools.views.pruevaAlarma;
-import java.awt.AWTException;
 import java.awt.BorderLayout;
 import static java.awt.Frame.MAXIMIZED_BOTH;
-import java.awt.Image;
-import java.awt.SystemTray;
-import java.awt.Toolkit;
 import java.awt.TrayIcon;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
@@ -35,10 +14,7 @@ public class Dashboard extends javax.swing.JFrame {
 
     public static Alarma alarma;
     private Inicio inicio;
-    private ConfigAlarma configAlarma;
-    private Configuracion configuracion;
-    private pruevaAlarma pruAlarma;
-    private List<Alarma_Timbre> alarmas = new ArrayList<Alarma_Timbre>();
+//    private List<Alarma_Timbre> alarmas = new ArrayList<Alarma_Timbre>();
     private TrayIcon trayIcon;
 
     public Dashboard() {
@@ -46,8 +22,6 @@ public class Dashboard extends javax.swing.JFrame {
         alarma = new Alarma();
         Init();
     }
-    
-
 
     private void Init() {
         alarma.setHoraInicio(2);
@@ -55,22 +29,12 @@ public class Dashboard extends javax.swing.JFrame {
         inicio = new Inicio(alarma, this);
         alarma.addAlarmaListener(inicio);
         alarma.getTimbre().addTimbreListener(inicio);
-        configAlarma = new ConfigAlarma(alarma);
-        configuracion = new Configuracion();
+        //configuracion = new Configuracion();
 
-        Alarma_Timbre alarma_Timbre = new Alarma_Timbre("Yoseph");
-        alarmas.add(alarma_Timbre);
-        System.out.println(alarmas.get(0).getNombre());
-        pruAlarma = new pruevaAlarma(alarmas);
-ShoJPanel(inicio);
-        /*botonMenuConfiguracion.setSvgImage("resource/IconMenu/Settings.svg");
-        botonMenuConfgReloj.setSvgImage("resource/IconMenu/reloj.svg");
-        botonMenuHome.setSvgImage("resource/IconMenu/Home.svg");
-        try {
-            SelectorMenu(inicio, 1);
-        } catch (Exception ex) {
-            Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+//        Alarma_Timbre alarma_Timbre = new Alarma_Timbre("Yoseph");
+//        alarmas.add(alarma_Timbre);
+//        System.out.println(alarmas.get(0).getNombre());
+        ShoJPanel(inicio);
     }
 
     public static void ShoJPanel(JPanel p) {
@@ -80,37 +44,6 @@ ShoJPanel(inicio);
         content.revalidate();
         content.repaint();
     }
-
-    public void sicloReloj() {
-
-    }
-
-    /*private void SelectorMenu(JPanel Pagina, int indice) {
-        // Deseleccionar todos los botones
-        botonMenuConfiguracion.setSelecionado(false);
-        botonMenuConfgReloj.setSelecionado(false);
-        botonMenuHome.setSelecionado(false);
-
-        // Seleccionar el botón específico
-        switch (indice) {
-            case 1:
-                botonMenuHome.setSelecionado(true);
-                break;
-            case 2:
-                botonMenuConfiguracion.setSelecionado(true);
-                break;
-            case 3:
-                botonMenuConfgReloj.setSelecionado(true);
-                break;
-            default:
-
-        }
-        if (Pagina.getClass() == Inicio.class) {
-            alarma.addAlarmaListener((Alarma.AlarmaListener) Pagina);
-        }
-        ShoJPanel(Pagina);
-    }*/
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -171,12 +104,6 @@ ShoJPanel(inicio);
     }// </editor-fold>//GEN-END:initComponents
 
     public static void main(String args[]) {
-
-        try {
-            UIManager.setLookAndFeel(new FlatDarkLaf());
-        } catch (Exception ex) {
-            System.err.println("Failed to initialize LaF");
-        }
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

@@ -1,7 +1,5 @@
 package com.mytools.swings.JComponents.Label;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
-import com.mytools.utils.ConfiguracionArchivo;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JLabel;
@@ -18,12 +16,9 @@ public class LabelTitle extends JLabel {
 
     private int IconSize;
 
-    private FlatSVGIcon svgIcon;
 
     public LabelTitle() {
         cargarConfiguraio();
-        ConfiguracionArchivo configuracion = new ConfiguracionArchivo();
-        configuracion.getForeground("LabelTitle", this);
         
     }
 
@@ -35,8 +30,4 @@ public class LabelTitle extends JLabel {
         setIconSize(25);
     }
 
-    public void setSvgImage(String image) {
-        svgIcon = new FlatSVGIcon(image, getIconSize(), getIconSize());
-        setIcon(svgIcon);
-    }
 }

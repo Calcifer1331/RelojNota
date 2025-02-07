@@ -4,7 +4,6 @@
  */
 package com.mytools.swings.JComponents;
 
-import com.mytools.utils.ConfiguracionArchivo;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
@@ -65,9 +64,7 @@ public class PanelDegradadoWhite extends JPanel {
     public PanelDegradadoWhite() {
         setOpaque(false);
         cargarConfiguracion();
-        ConfiguracionArchivo configuracion = new ConfiguracionArchivo();
         PanelDegradado pd = new PanelDegradado();
-        configuracion.getPanelDegradado(pd);
         cargarConfiguracion(pd);
         
     }

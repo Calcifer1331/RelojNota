@@ -1,8 +1,6 @@
 
 package com.mytools.swings.JComponents.Label;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
-import com.mytools.utils.ConfiguracionArchivo;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JLabel;
@@ -17,13 +15,10 @@ public class LabelText extends JLabel{
         this.IconSize = IconSize;
     }
     
-    private FlatSVGIcon svgIcon;
     private int IconSize;
 
     public LabelText() {
         cargarConfiguraio();
-        ConfiguracionArchivo configuracion = new ConfiguracionArchivo();
-        configuracion.getForeground("LabelText", this);
     }
     
     public void cargarConfiguraio(){
@@ -31,9 +26,5 @@ public class LabelText extends JLabel{
         setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
         setForeground(Color.WHITE);
         setIconSize(25);
-    }
-    public void setSvgImage(String image) {
-        svgIcon = new FlatSVGIcon(image, getIconSize(), getIconSize());
-        setIcon(svgIcon);
     }
 }

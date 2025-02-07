@@ -1,23 +1,22 @@
 package com.mytools.swings.JComponents.tree;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Image;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.net.URL;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
@@ -50,8 +49,6 @@ public class Tree extends JTree {
         this.selectedFolder = selectedFolder;
     }
 
-    private FlatSVGIcon svgIcon;
-
     public JTextArea getTextArea() {
         return textArea;
     }
@@ -67,10 +64,8 @@ public class Tree extends JTree {
     public void setLabelMensaje(JLabel labelMensaje) {
         this.labelMensaje = labelMensaje;
     }
-
     TreeNode root;//Raiz del arbol
     private DefaultTreeModel modelo;//modelo del arbol
-
     private String folderPath = "Notas";
     private File folder;
     private JTextArea textArea = new JTextArea();
@@ -82,34 +77,35 @@ public class Tree extends JTree {
         init();
         setOpaque(false);
         setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
-        setForeground(Color.WHITE);
+
     }
 
     @Override
     public TreeCellRenderer getCellRenderer() {
         return new DefaultTreeCellRenderer() {
-            @Override
-            public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus) {
-                Component component = super.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus);
 
-                if (value instanceof TreeNode node) {
+            @Override
+            public JLabel getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus) {
+                JLabel jLabel = (JLabel) super.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus);
+                if (value instanceof TreeNode) {
+                    TreeNode node = (TreeNode) value;
 
                     if (node.isFolder()) {
                         if (expanded) {
-                            setIcon(setSvgImage("resource/Opened Folder.svg"));
+                            setIcon(setImage("/resource/Opened Folder.png"));
 
                         } else {
                             if (node.isEmpty()) {
-                                setIcon(setSvgImage("resource/Folder null.svg"));
+                                setIcon(setImage("/resource/Folder null.png"));
                             } else {
-                                setIcon(setSvgImage("resource/Folder full.svg"));
+                                setIcon(setImage("/resource/Folder full.png"));
                             }
                         }
                     } else {
                         if (node.isEmpty()) {
-                            setIcon(setSvgImage("resource/File.svg"));
+                            setIcon(setImage("/resource/File.png"));
                         } else {
-                            setIcon(setSvgImage("resource/Document.svg"));
+                            setIcon(setImage("/resource/Document.png"));
                         }
 
                     }
@@ -117,36 +113,45 @@ public class Tree extends JTree {
                     setText(node.getNameFile());
                 }
                 //setTextSelectionColor(Color.BLACK);
-                setBackgroundSelectionColor(Color.BLACK);
+                setBackgroundSelectionColor(new Color(0, 0, 0, 0));
                 //setBackgroundNonSelectionColor(Color.GREEN);
+                setBackground(new Color(0, 0, 0, 0));
+                setOpaque(false);
                 setFont(new Font("Segoe UI Semibold", Font.BOLD, 16));
-                setForeground(Color.WHITE);
+                setForeground(Color.BLACK);
 
-                return component;
+                return jLabel;
 
             }
         };
     }
 
-    public ImageIcon setSvgImage(String image, int width, int height) {
-        svgIcon = new FlatSVGIcon(image, width, height);
-        return (svgIcon);
-    }
-
-    public ImageIcon setSvgImage(String image) {
-        svgIcon = new FlatSVGIcon(image, 25, 25);
-        return (svgIcon);
+    public ImageIcon setImage(String image) {
+        URL imageUrl = getClass().getResource(image);
+        if (imageUrl != null) {
+            ImageIcon icon = new ImageIcon(imageUrl);
+            Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+            return new ImageIcon(scaledImage);
+        } else {
+            // Manejar el caso en el que la URL sea nula
+            System.err.println("Error: La URL de la imagen es nula para " + image);
+            return null;
+        }
     }
 
     private void init() {
         setFolder(new File(folderPath));
         actualizar(getFolder());
-        addTreeSelectionListener(e -> {
-            TreePath path = e.getPath();
-            TreeNode selectedNode = (TreeNode) path.getLastPathComponent();
-            setSelectedFolder(new File(getPath(selectedNode)));
-            loadFromFile(getSelectedFolder());
-            getLabelTitle().setText(selectedNode.getNameFile());
+        addTreeSelectionListener(new TreeSelectionListener() {
+
+            @Override
+            public void valueChanged(TreeSelectionEvent e) {
+                TreePath path = e.getPath();
+                TreeNode selectedNode = (TreeNode) path.getLastPathComponent();
+                setSelectedFolder(new File(getPath(selectedNode)));
+                loadFromFile(getSelectedFolder());
+                getLabelTitle().setText(selectedNode.getNameFile());
+            }
         });
     }
 
@@ -165,31 +170,39 @@ public class Tree extends JTree {
     }
 
     private void loadFromFile(File file) {
-        if (textArea != null) {
-            if (file.exists() && file.isFile()) {
-                try (BufferedReader reader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
-                    StringBuilder sb = new StringBuilder();
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        sb.append(line).append("\n");
-                    }
-                    textArea.setText(sb.toString());
+        if (getSelectedFolder().isFile()) {//------------------------------
+            textArea.setEnabled(true);
+        }else{
+            textArea.setEnabled(false);
+        }
+            if (textArea != null) {
+                if (file.exists() && file.isFile()) {
+                    BufferedReader reader = null;
+                    //try (BufferedReader reader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {//aqui tengo error
+                    try {
+                        reader = new BufferedReader(new FileReader(file));
+                        StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            sb.append(line).append("\n");
+                        }
+                        textArea.setText(sb.toString());
 
-                    //labelMensaje.setText(file.getName().substring(0, file.getName().lastIndexOf('.')));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    labelMensaje.setText("Error al cargar: " + file.getName().substring(0, file.getName().lastIndexOf('.')));
+                        //labelMensaje.setText(file.getName().substring(0, file.getName().lastIndexOf('.')));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        labelMensaje.setText("Error al cargar: " + file.getName().substring(0, file.getName().lastIndexOf('.')));
+                    }
+                } else {
+                    textArea.setText("");
+                    labelMensaje.setText(file.isDirectory() ? "" : "El archivo no existe");
                 }
             } else {
-                textArea.setText("");
-                labelMensaje.setText(file.isDirectory() ? "" : "El archivo no existe");
+                labelMensaje.setText("No hay componente");
             }
-        } else {
-            labelMensaje.setText("No hay componente");
-        }
     }
 
-    private String getPath(TreeNode node) {
+    public String getPath(TreeNode node) {
         StringBuilder path = new StringBuilder(node.getName());
         TreeNode parent = (TreeNode) node.getParent();
         while (parent != null) {
@@ -299,25 +312,83 @@ public class Tree extends JTree {
 
     }
 
+//    public void eliminarArchivoODirectorioSeleccionado() {
+//        
+//        TreePath path = getSelectionPath();
+//        if (path != null) {
+//            TreeNode selectedNode = (TreeNode) path.getLastPathComponent();
+//            String selectedPath = getPath(selectedNode);
+//            File selectedFile = new File(selectedPath);
+//            System.out.println(selectedPath); // Imprimir la ruta del archivo
+//            System.out.println(selectedFile);
+//            if (selectedFile.exists()) {
+//                if (selectedFile.delete()) {
+//                    actualizar(getFolder());
+//                    System.out.print(selectedPath);
+//                    labelMensaje.setText("Se elimino: " + selectedPath);
+//                } else {
+//                    labelMensaje.setText("No se pudo eliminar: " + selectedPath);
+//                }
+//            }
+//        } else {
+//            labelMensaje.setText("No se ha seleccionado ningún archivo o directorio.");
+//        }
+//    }
+//    public void eliminarArchivoODirectorioSeleccionado() {
+//    TreePath path = getSelectionPath();
+//    if (path != null) {
+//        TreeNode selectedNode = (TreeNode) path.getLastPathComponent();
+//        String selectedPath = getPath(selectedNode);
+//        File selectedFile = new File(selectedPath);
+//        System.out.println(selectedPath); // Imprimir la ruta del archivo
+//        System.out.println(selectedFile);
+//        if (selectedFile.exists()) {
+//            // Obtener el nodo raíz
+//            TreeNode rootNode = (TreeNode) getModel().getRoot();
+//            TreePath rootPath = new TreePath(rootNode);
+//            
+//            // Seleccionar el nodo raíz antes de eliminar
+//            setSelectionPath(rootPath);
+//
+//            if (selectedFile.delete()) {
+//                actualizar(getFolder());
+//                System.out.print(selectedPath);
+//                labelMensaje.setText("Se eliminó: " + selectedPath);
+//            } else {
+//                labelMensaje.setText("No se pudo eliminar: " + selectedPath);
+//            }
+//        }
+//    } else {
+//        labelMensaje.setText("No se ha seleccionado ningún archivo o directorio.");
+//    }
+//}
     public void eliminarArchivoODirectorioSeleccionado() {
-        TreePath path = getSelectionPath();
-        if (path != null) {
-            TreeNode selectedNode = (TreeNode) path.getLastPathComponent();
-            String selectedPath = getPath(selectedNode);
-            File selectedFile = new File(selectedPath);
-            System.out.println(selectedFile);
-            if (selectedFile.exists()) {
-                if (selectedFile.delete()) {
-                    actualizar(getFolder());
-                    labelMensaje.setText("Se elimino: " + selectedPath);
-                } else {
-                    labelMensaje.setText("No se pudo eliminar: " + selectedPath);
-                }
+    TreePath path = getSelectionPath();
+    if (path != null) {
+        TreeNode selectedNode = (TreeNode) path.getLastPathComponent();
+        String selectedPath = getPath(selectedNode);
+        File selectedFile = new File(selectedPath);
+        if (selectedFile.exists()) {
+            // Obtener el nodo raíz
+            TreeNode rootNode = (TreeNode) getModel().getRoot();
+            TreePath rootPath = new TreePath(rootNode);
+
+            // Seleccionar el nodo raíz antes de eliminar
+            setSelectionPath(rootPath);
+
+            if (selectedFile.delete()) {
+                actualizar(getFolder());
+                labelMensaje.setText("Se eliminó correctamente: " + selectedPath);
+            } else {
+                labelMensaje.setText("No se pudo eliminar: " + selectedPath);
             }
         } else {
-            labelMensaje.setText("No se ha seleccionado ningún archivo o directorio.");
+            labelMensaje.setText("El archivo o directorio seleccionado no existe.");
         }
-
+    } else {
+        labelMensaje.setText("No se ha seleccionado ningún archivo o directorio.");
     }
+}
+
 
 }

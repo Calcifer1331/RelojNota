@@ -1,6 +1,5 @@
 package com.mytools.swings;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
 import javax.swing.Icon;
 
 public class TextFildIcono extends javax.swing.JPanel {
@@ -21,8 +20,8 @@ public class TextFildIcono extends javax.swing.JPanel {
         return LabelIcono.getIcon().toString();
     }
 
-    public void setImagen(String imagen) {
-        LabelIcono.setIcon(setSVG(imagen));
+    public void setImagen(Icon imagen) {
+        LabelIcono.setIcon(imagen);
 
     }
 
@@ -34,7 +33,6 @@ public class TextFildIcono extends javax.swing.JPanel {
         campo.setText(text);
     }
 
-    private FlatSVGIcon svgIcon;
     private String placeholderText;
     private int tamanoImageSvg;
     private String imagen2;
@@ -43,10 +41,7 @@ public class TextFildIcono extends javax.swing.JPanel {
         initComponents();
     }
 
-    private FlatSVGIcon setSVG(String img) {
-        svgIcon = new FlatSVGIcon(img, 25, 25);
-        return svgIcon;
-    }
+  
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

@@ -1,13 +1,11 @@
 package com.mytools.views;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.mytools.ilib.Dashboard;
-import com.mytools.swings.JComponents.tree.Tree;
 import com.mytools.utils.Alarma;
 import java.awt.Color;
-import java.awt.Component;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
+import java.awt.Image;
+import java.net.URL;
+import javax.swing.ImageIcon;
 
 public class ConfigAlarm extends javax.swing.JDialog {
 
@@ -16,18 +14,47 @@ public class ConfigAlarm extends javax.swing.JDialog {
     public ConfigAlarm(java.awt.Frame parent, Alarma alarma, boolean modal) {
         super(parent, modal);
         this.alarma = alarma;
+        System.out.println(alarma.getMinutoRestante() + alarma.getMinutoInicio());
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
-        Cerrar.setIconSvg("resource/Close.svg");
-        Guardar.setIconSvg("resource/Like.svg");
-        Detener.setIconSvg("resource/stop.svg");
+        Cerrar.setIcon(setImage("/resource/Close.png"));
+        Guardar.setIcon(setImage("/resource/Like.png"));
+        Detener.setIcon(setImage("/resource/stop.png"));
         if (alarma != null) {
             init();
         }
     }
 
+    public ImageIcon setImageMin(String image) {
+        URL imageUrl = getClass().getResource(image);
+        if (imageUrl != null) {
+            ImageIcon icon = new ImageIcon(imageUrl);
+
+            Image scaledImage = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+
+            return new ImageIcon(scaledImage);
+        } else {
+            System.err.println("Error: La URL de la imagen es nula para " + image);
+            return null;
+        }
+    }
+
+    public ImageIcon setImage(String image) {
+        URL imageUrl = getClass().getResource(image);
+        if (imageUrl != null) {
+            ImageIcon icon = new ImageIcon(imageUrl);
+
+            Image scaledImage = icon.getImage().getScaledInstance(35, 35, Image.SCALE_SMOOTH);
+
+            return new ImageIcon(scaledImage);
+        } else {
+            System.err.println("Error: La URL de la imagen es nula para " + image);
+            return null;
+        }
+    }
+
     private void init() {
-        spinnerHoras.setValue(alarma.getHoraInicio());
+        spinnerHoras.setValue((Integer) alarma.getHoraInicio());
         spinnerMinutos.setValue(alarma.getMinutoInicio());
         spinnerSegundos.setValue(alarma.getSegundoInicio());
 
@@ -40,6 +67,7 @@ public class ConfigAlarm extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelDegradadoBack1 = new com.mytools.swings.JComponents.PanelDegradadoBack();
         panelDegradado1 = new com.mytools.swings.JComponents.PanelDegradado();
         Guardar = new com.mytools.swings.JComponents.BotonIcono();
         Cerrar = new com.mytools.swings.JComponents.BotonIcono();
@@ -66,8 +94,15 @@ public class ConfigAlarm extends javax.swing.JDialog {
         Detener = new com.mytools.swings.JComponents.BotonIcono();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setUndecorated(true);
-        setType(java.awt.Window.Type.POPUP);
+        setResizable(false);
+
+        panelDegradadoBack1.setColorInicial(new java.awt.Color(0, 4, 40));
+        panelDegradadoBack1.setColorMedia1(new java.awt.Color(0, 41, 146));
+        panelDegradadoBack1.setFraccionMedia1(1.0F);
+        panelDegradadoBack1.setNumeroColores(com.mytools.swings.JComponents.PanelDegradadoBack.NumeroColores.NUMERO_COLOR_2);
+        panelDegradadoBack1.setPosicionCentral(com.mytools.swings.JComponents.PanelDegradadoBack.PosicionCentral.ABAJO);
+        panelDegradadoBack1.setRadioIncremento(200);
+        panelDegradadoBack1.setTipoFondo(com.mytools.swings.JComponents.PanelDegradadoBack.TipoFondo.LINEAL);
 
         panelDegradado1.setOpacidadFinal(80);
         panelDegradado1.setOpacidadInical(80);
@@ -102,10 +137,10 @@ public class ConfigAlarm extends javax.swing.JDialog {
         spinnerSegundos.setFont(new java.awt.Font("Cascadia Mono", 0, 24)); // NOI18N
 
         labelHora.setText("Horas");
-        labelHora.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
+        labelHora.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18));
 
         labelMinutos.setText("Minutos");
-        labelMinutos.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
+        labelMinutos.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18));
 
         labelSegundos.setText("Segundos");
         labelSegundos.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
@@ -117,10 +152,10 @@ public class ConfigAlarm extends javax.swing.JDialog {
             .addGroup(panelDegradado2Layout.createSequentialGroup()
                 .addGroup(panelDegradado2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelDegradado2Layout.createSequentialGroup()
-                        .addContainerGap(27, Short.MAX_VALUE)
-                        .addGroup(panelDegradado2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addContainerGap(46, Short.MAX_VALUE)
+                        .addGroup(panelDegradado2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(spinnerHoras, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
-                            .addComponent(labelHora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(labelHora, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
@@ -133,10 +168,10 @@ public class ConfigAlarm extends javax.swing.JDialog {
                         .addGroup(panelDegradado2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelSegundos, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(spinnerSegundos, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 24, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE))
                     .addGroup(panelDegradado2Layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(labelHeaderAlarmaNormal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(24, 24, 24)
+                        .addComponent(labelHeaderAlarmaNormal, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelDegradado2Layout.setVerticalGroup(
@@ -153,13 +188,13 @@ public class ConfigAlarm extends javax.swing.JDialog {
                             .addComponent(labelSegundos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelDegradado2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(spinnerSegundos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(spinnerMinutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(spinnerHoras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(30, 30, 30))
-                    .addComponent(jSeparator1)
-                    .addComponent(jSeparator2))
-                .addGap(12, 12, 12))
+                            .addComponent(spinnerHoras, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(spinnerMinutos, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(spinnerSegundos, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(17, 17, 17))
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE))
+                .addGap(13, 13, 13))
         );
 
         labelHeaderTimbre1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -182,7 +217,7 @@ public class ConfigAlarm extends javax.swing.JDialog {
         labelHora3.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
 
         labelMinutos3.setText("Minutos");
-        labelMinutos3.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
+        labelMinutos3.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18));
 
         labelSegundos3.setText("Segundos");
         labelSegundos3.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
@@ -194,26 +229,29 @@ public class ConfigAlarm extends javax.swing.JDialog {
             .addGroup(panelDegradado5Layout.createSequentialGroup()
                 .addGroup(panelDegradado5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelDegradado5Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(panelDegradado5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(spinnerHorasTimbre1, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
-                            .addComponent(labelHora3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap(42, Short.MAX_VALUE)
+                        .addGroup(panelDegradado5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelDegradado5Layout.createSequentialGroup()
+                                .addComponent(labelHora3, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
+                                .addGap(28, 28, 28))
+                            .addGroup(panelDegradado5Layout.createSequentialGroup()
+                                .addComponent(spinnerHorasTimbre1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addComponent(jSeparator13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(26, 26, 26)
                         .addGroup(panelDegradado5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelMinutos3, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(spinnerMinutosTimbre1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(26, 26, 26)
                         .addComponent(jSeparator14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(26, 26, 26)
                         .addGroup(panelDegradado5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelSegundos3, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(spinnerSegundosTimbre1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE))
                     .addGroup(panelDegradado5Layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(labelHeaderTimbre1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(12, 12, 12)
+                        .addComponent(labelHeaderTimbre1, javax.swing.GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelDegradado5Layout.setVerticalGroup(
@@ -222,21 +260,21 @@ public class ConfigAlarm extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(labelHeaderTimbre1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelDegradado5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(panelDegradado5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelDegradado5Layout.createSequentialGroup()
                         .addGroup(panelDegradado5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelHora3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(labelMinutos3, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
-                            .addComponent(labelSegundos3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(labelSegundos3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelMinutos3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelHora3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelDegradado5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(spinnerSegundosTimbre1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(spinnerMinutosTimbre1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(spinnerHorasTimbre1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(30, 30, 30))
-                    .addComponent(jSeparator13)
-                    .addComponent(jSeparator14))
-                .addGap(12, 12, 12))
+                        .addGroup(panelDegradado5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(spinnerSegundosTimbre1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(spinnerMinutosTimbre1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(spinnerHorasTimbre1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panelDegradado5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jSeparator13, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jSeparator14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         Detener.setText("Detener");
@@ -279,28 +317,53 @@ public class ConfigAlarm extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
+        javax.swing.GroupLayout panelDegradadoBack1Layout = new javax.swing.GroupLayout(panelDegradadoBack1);
+        panelDegradadoBack1.setLayout(panelDegradadoBack1Layout);
+        panelDegradadoBack1Layout.setHorizontalGroup(
+            panelDegradadoBack1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 508, Short.MAX_VALUE)
+            .addGroup(panelDegradadoBack1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelDegradadoBack1Layout.createSequentialGroup()
+                    .addGap(0, 16, Short.MAX_VALUE)
+                    .addComponent(panelDegradado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 17, Short.MAX_VALUE)))
+        );
+        panelDegradadoBack1Layout.setVerticalGroup(
+            panelDegradadoBack1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 474, Short.MAX_VALUE)
+            .addGroup(panelDegradadoBack1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelDegradadoBack1Layout.createSequentialGroup()
+                    .addGap(0, 26, Short.MAX_VALUE)
+                    .addComponent(panelDegradado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 25, Short.MAX_VALUE)))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelDegradado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(panelDegradadoBack1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelDegradado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(panelDegradadoBack1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
         alarma.detener();
-        alarma.inicir((int) spinnerHoras.getValue(), (int) spinnerMinutos.getValue(), (int) spinnerSegundos.getValue());
-        alarma.getTimbre().setHoraInicio((int) spinnerHorasTimbre1.getValue());
-        alarma.getTimbre().setMinutoInicio((int) spinnerMinutosTimbre1.getValue());
-        alarma.getTimbre().setSegundoInicio((int) spinnerSegundosTimbre1.getValue());
+        alarma.inicir(Integer.parseInt(spinnerHoras.getValue().toString()), Integer.parseInt(spinnerMinutos.getValue().toString()), Integer.parseInt(spinnerSegundos.getValue().toString()));
+
+        alarma.getTimbre().setHoraInicio(Integer.parseInt(spinnerHorasTimbre1.getValue().toString()));
+
+        alarma.getTimbre().setMinutoInicio(Integer.parseInt(spinnerMinutosTimbre1.getValue().toString()));
+
+        alarma.getTimbre().setSegundoInicio(Integer.parseInt(spinnerSegundosTimbre1.getValue().toString()));
+
         Dashboard.alarma = alarma;
+
     }//GEN-LAST:event_GuardarActionPerformed
 
     private void CerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CerrarActionPerformed
@@ -340,9 +403,11 @@ public class ConfigAlarm extends javax.swing.JDialog {
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
+
             public void run() {
                 ConfigAlarm dialog = new ConfigAlarm(new javax.swing.JFrame(), new Alarma(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
@@ -352,7 +417,6 @@ public class ConfigAlarm extends javax.swing.JDialog {
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.mytools.swings.JComponents.BotonIcono Cerrar;
     private com.mytools.swings.JComponents.BotonIcono Detener;
@@ -372,6 +436,7 @@ public class ConfigAlarm extends javax.swing.JDialog {
     private com.mytools.swings.JComponents.PanelDegradado panelDegradado1;
     private com.mytools.swings.JComponents.PanelDegradado panelDegradado2;
     private com.mytools.swings.JComponents.PanelDegradado panelDegradado5;
+    private com.mytools.swings.JComponents.PanelDegradadoBack panelDegradadoBack1;
     private com.mytools.swings.JComponents.Spinner spinnerHoras;
     private com.mytools.swings.JComponents.Spinner spinnerHorasTimbre1;
     private com.mytools.swings.JComponents.Spinner spinnerMinutos;

@@ -4,7 +4,6 @@
  */
 package com.mytools.swings.JComponents;
 
-import com.mytools.utils.ConfiguracionArchivo;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JTextArea;
@@ -13,7 +12,6 @@ public class TextAreaTransparente extends JTextArea {
 
     public TextAreaTransparente() {
         cargarConfiguracion();
-        ConfiguracionArchivo.getForeground("labelText", this);
     }
     private void cargarConfiguracion(){
         setText("est");

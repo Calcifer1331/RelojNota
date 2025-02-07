@@ -1,7 +1,6 @@
 
 package com.mytools.swings;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
 public class TextFild extends javax.swing.JPanel {
 
     public void setPlaceholderText(String placeholderText) {
@@ -16,7 +15,6 @@ public class TextFild extends javax.swing.JPanel {
         campo.setText(text);
     } 
 
-    private FlatSVGIcon svgIcon;
     private String placeholderText;
     private int tamanoImageSvg;
 

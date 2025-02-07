@@ -4,8 +4,6 @@
  */
 package com.mytools.swings.JComponents;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
-import com.mytools.utils.ConfiguracionArchivo;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -91,13 +89,11 @@ public class BotonMenu extends JButton {
     private boolean selecionado;
     private int grosorBarra;
     private int redondeadoBarra;
-    private FlatSVGIcon svgIcon;
     private boolean exitado;
     private boolean press = false;
 
     public BotonMenu() {
         cargarConfigurarcion();
-        ConfiguracionArchivo.getBoton("botonMenu", this);
         
     }
     private void cargarConfigurarcion(){
@@ -150,10 +146,6 @@ public class BotonMenu extends JButton {
         });
     }
 
-    public void setSvgImage(String image) {
-        svgIcon = new FlatSVGIcon(image, MAX_ICON_SIZE, MAX_ICON_SIZE);
-        setIcon(svgIcon);
-    }
 
     public void cambiarSeleccion() {
         selecionado = !selecionado;  // Invierte el estado actual

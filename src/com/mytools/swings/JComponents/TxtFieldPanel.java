@@ -1,6 +1,5 @@
 package com.mytools.swings.JComponents;
 
-import com.mytools.utils.ConfiguracionArchivo;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GradientPaint;
@@ -65,7 +64,6 @@ public class TxtFieldPanel extends JPanel {
         cargarConfiguracion();
         PanelDegradado PD = new PanelDegradado();
 
-        ConfiguracionArchivo.getPanelDegradado(PD);
         setOpacidadBorder(PD.getOpacidadBorder());
         setOpacidadInical(PD.getOpacidadInical());
         setOpacidadFinal(PD.getOpacidadFinal());

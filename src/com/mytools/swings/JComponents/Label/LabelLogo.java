@@ -1,10 +1,5 @@
 package com.mytools.swings.JComponents.Label;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
-import com.kitfox.svg.SVGDiagram;
-import com.kitfox.svg.SVGException;
-import com.kitfox.svg.SVGUniverse;
-import com.mytools.utils.ConfiguracionArchivo;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -13,41 +8,30 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
-import javax.swing.Icon;
+import java.net.URL;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 public class LabelLogo extends JLabel {
 
-    private FlatSVGIcon svgIcon;
     private String image;
-    private int originalMaxWidth;
-    private int originalMaxHeight;
-    private int maxWidth;
-    private int maxHeight;
+    int scaledWidth=0;
+    int scaledHeight=0;
 
     public LabelLogo() {
-        // Obtener el tamaño máximo original del JLabel
-        originalMaxWidth = getWidth();
-        originalMaxHeight = getHeight();
-
         cargarConfiguracion();
-        ConfiguracionArchivo configuracion = new ConfiguracionArchivo();
-        configuracion.getForeground("LabelLogo", this);
 
         // Agregar un ComponentListener para detectar cambios en el tamaño del JLabel
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                // Actualizar el tamaño del icono SVG para que coincida con el nuevo tamaño del JLabel
-                // Actualizar el tamaño del icono SVG para que coincida con el nuevo tamaño del JLabel
-                if (image != null && svgIcon != null) {
-                    svgIcon = new FlatSVGIcon(image, maxWidth, maxHeight);
-                    setIcon(svgIcon);
-                }
-            }
-        });
+//        addComponentListener(new ComponentAdapter() {
+//            @Override
+//            public void componentResized(ComponentEvent e) {
+//                // Actualizar el tamaño del icono SVG para que coincida con el nuevo tamaño del JLabel
+//                if (image != null) {
+//                    setImage(image);
+//                }
+//            }
+//        });
     }
 
     public void cargarConfiguracion() {
@@ -57,44 +41,89 @@ public class LabelLogo extends JLabel {
         setHorizontalAlignment(CENTER);
     }
 
-    public void setSvgImage(String image) {
+//    public void setSvgImage(String image) {
+//        this.image = image;
+//        Dimension a = calcular(image, getWidth(), getHeight());
+//        maxHeight = (int) a.getHeight();
+//        maxWidth = (int) a.getWidth();
+//
+//        ImageIcon icon = new ImageIcon(image);
+//        setIcon(icon);
+//    }
+//
+//    private Dimension calcular(String image, int maxWidth, int maxHeight) {
+//        File file = new File("src/" + image);
+//        if (file.exists()) {
+//            ImageIcon icon = new ImageIcon(image);
+//            return new Dimension(icon.getIconWidth(), icon.getIconHeight());
+//        }
+//        return null;
+//    }
+//    public void setImage(String image) {
+//    this.image = image;
+//    URL imageUrl = getClass().getResource(image);
+//    if (imageUrl != null) {
+//        ImageIcon icon = new ImageIcon(imageUrl);
+//        
+//        // Escalar la imagen al tamaño máximo original del JLabel
+//        Image scaledImage = icon.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
+//        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+//
+//        // Establecer el icono escalado en el JLabel
+//        setIcon(scaledIcon);
+//       
+//        
+//    } else {
+//        System.err.println("Error: La URL de la imagen es nula para " + image);
+//    }
+//}
+    public void setImage(String image) {
         this.image = image;
-        if (svgIcon == null) {
-            Dimension a = calcular(image, getWidth(), getHeight());
-            maxHeight = (int) a.getHeight();
-            maxWidth = (int) a.getWidth();
-        }
-        svgIcon = new FlatSVGIcon(image, maxWidth, maxHeight);
-        setIcon(svgIcon);
-    }
+        URL imageUrl = getClass().getResource(image);
+        if (imageUrl != null) {
+            ImageIcon icon = new ImageIcon(imageUrl);
 
-    private Dimension calcular(String image, int maxWidth, int maxHeight) {
-        try {
-            SVGUniverse universe = new SVGUniverse();
-            File file = new File("src/" + image);
-            if (file.exists()) {
-                URI url = universe.loadSVG(file.toURI().toURL());
-                SVGDiagram diagram = universe.getDiagram(url);
+            // Obtener el tamaño del JLabel
+            int labelWidth = getWidth();
+            int labelHeight = getHeight();
 
-                // Obtener las dimensiones del diagrama SVG
-                float svgWidth = diagram.getWidth();
-                float svgHeight = diagram.getHeight();
+            // Obtener el tamaño original de la imagen
+            int imageWidth = icon.getIconWidth();
+            int imageHeight = icon.getIconHeight();
 
-                // Calcular el scale para ajustarse al JLabel sin deformar la imagen
-                float scaleWidth = maxWidth / svgWidth;
-                float scaleHeight = maxHeight / svgHeight;
-                float scale = Math.min(scaleWidth, scaleHeight);
+            // Calcular el scale para ajustar la imagen al JLabel
+            double scaleX = (double) labelWidth / imageWidth;
+            double scaleY = (double) labelHeight / imageHeight;
+            double scale = Math.min(scaleX, scaleY);
 
-                // Calcular las nuevas dimensiones
-                int newWidth = (int) (svgWidth * scale);
-                int newHeight = (int) (svgHeight * scale);
-
-                return new Dimension(newWidth, newHeight);
+            // Escalar la imagen con el scale calculado
+            if(scaledWidth==0){
+            scaledWidth = (int) (scale * imageWidth);
+            scaledHeight = (int) (scale * imageHeight);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            Image scaledImage = icon.getImage().getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+            // Establecer el icono escalado en el JLabel
+            setIcon(scaledIcon);
+        } else {
+            System.err.println("Error: La URL de la imagen es nula para " + image);
         }
-        return null;
     }
 
+    public void setImageMas(String image) {
+        this.image = image;
+        URL imageUrl = getClass().getResource(image);
+        if (imageUrl != null) {
+            ImageIcon icon = new ImageIcon(imageUrl);
+
+            Image scaledImage = icon.getImage().getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+            // Establecer el icono escalado en el JLabel
+            setIcon(scaledIcon);
+        } else {
+            System.err.println("Error: La URL de la imagen es nula para " + image);
+        }
+    }
 }

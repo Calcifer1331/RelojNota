@@ -4,7 +4,6 @@
  */
 package com.mytools.swings.JComponents;
 
-import com.mytools.utils.ConfiguracionArchivo;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JSlider;
@@ -13,7 +12,6 @@ public class Slider extends JSlider {
 
     public Slider() {
         cargarConfigiuracion();
-        ConfiguracionArchivo.getForeground("labelText", this);
     }
 
     private void cargarConfigiuracion() {

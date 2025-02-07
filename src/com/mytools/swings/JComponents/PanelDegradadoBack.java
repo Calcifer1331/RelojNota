@@ -1,7 +1,6 @@
 package com.mytools.swings.JComponents;
 
 
-import com.mytools.utils.ConfiguracionArchivo;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -13,7 +12,18 @@ import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
 import javax.swing.JPanel;
 
-public class PanelDegradadoBack extends JPanel implements Constantes {
+public class PanelDegradadoBack extends JPanel {
+    public enum PosicionCentral {
+        ARRIBA, CENTRO, DERECHA, IZQUIERDA, ABAJO, IZQUIERDA_ABAJO, IZQUIERDA_ARRIBA, DERECHA_ABAJO, DERECHA_ARRIBA
+    }
+
+    public enum TipoFondo {
+        RADIAL, LINEAL, SOLID
+    }
+
+    public enum NumeroColores {
+        NUMERO_COLOR_1, NUMERO_COLOR_2, NUMERO_COLOR_3, NUMERO_COLOR_4
+    }
 
     public float getFraccionMedia1() {
         return fraccionMedia1;
@@ -167,8 +177,6 @@ public class PanelDegradadoBack extends JPanel implements Constantes {
 
     public PanelDegradadoBack(){
         cargarConfiguracion();
-        ConfiguracionArchivo configuracion = new ConfiguracionArchivo();
-        configuracion.getPanelDegradadoBack(this);
     }
 
     private void cargarConfiguracion() {

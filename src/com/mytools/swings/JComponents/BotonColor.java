@@ -4,8 +4,6 @@
  */
 package com.mytools.swings.JComponents;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
-import com.mytools.utils.ConfiguracionArchivo;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -35,11 +33,9 @@ public class BotonColor extends JButton {
     }
     private int borderRedondeado;
     private boolean press = false;
-    private FlatSVGIcon svgIcon;
 
     public BotonColor() {
         cargarConfigurarcion();
-        ConfiguracionArchivo.getBoton("botonColor", this);
     }
 
     private void cargarConfigurarcion() {
@@ -53,11 +49,6 @@ public class BotonColor extends JButton {
         setBorderRedondeado(40);
 
         
-    }
-
-    public void setSvgImage(String image) {
-        svgIcon = new FlatSVGIcon(image, MAX_ICON_SIZE, MAX_ICON_SIZE);
-        setIcon(svgIcon);
     }
 
     @Override

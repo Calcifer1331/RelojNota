@@ -1,15 +1,11 @@
 package com.mytools.utils;
 
 import com.mytools.ilib.Dashboard;
-import static com.mytools.ilib.Dashboard.alarma;
 import com.mytools.utils.Timbre;
-import com.mytools.views.detenerAlarma;
 import java.util.List;
-import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-import javax.swing.JOptionPane;
 
 public class Alarma {
 
@@ -90,8 +86,7 @@ public class Alarma {
         void cicloCompletado(int ciclo);
     }
 
-    private List<AlarmaListener> listeners = new ArrayList<>();
-
+private List<AlarmaListener> listeners = new ArrayList<AlarmaListener>();
     public void addAlarmaListener(AlarmaListener listener) {
         listeners.add(listener);
     }
@@ -102,8 +97,8 @@ public class Alarma {
         }
     }
 
-
     public Alarma() {
+        System.out.print("alarma inicia");
         timer = new Timer();
         timbre = new Timbre();
 
@@ -152,7 +147,7 @@ public class Alarma {
                 ciclosCompletados++;
                 notifyListeners(ciclosCompletados);
                 getTimbre().inicir();
-                
+
                 //getTimbre().panel();
                 System.out.println("¡¡¡ALARMA!!!");
 
@@ -163,4 +158,5 @@ public class Alarma {
         }
 
     }
+   
 }

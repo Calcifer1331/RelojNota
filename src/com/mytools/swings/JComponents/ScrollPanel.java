@@ -4,13 +4,6 @@
  */
 package com.mytools.swings.JComponents;
 
-import com.mytools.utils.ConfiguracionArchivo;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.geom.RoundRectangle2D;
-import javax.swing.JScrollPane;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -18,7 +11,6 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
 import javax.swing.JScrollPane;
-import javax.swing.plaf.ComponentUI;
 
 public class ScrollPanel extends JScrollPane {
 
@@ -61,7 +53,6 @@ public class ScrollPanel extends JScrollPane {
     public ScrollPanel() {
         cargarConfiguracion();
         PanelDegradado PD = new PanelDegradado();
-        ConfiguracionArchivo.getPanelDegradado(PD);
         setOpacidadBorder(PD.getOpacidadBorder());
         setOpacidad((int)(PD.getOpacidadInical()+PD.getOpacidadFinal())/2);
         setBorderRedondeado(PD.getBorderRedondeado());

@@ -4,7 +4,6 @@
  */
 package com.mytools.swings.JComponents;
 
-import com.mytools.utils.ConfiguracionArchivo;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JRadioButton;
@@ -13,7 +12,6 @@ public class RadioButton extends JRadioButton{
 
     public RadioButton() {
         cargarConfiguracion();
-        ConfiguracionArchivo.getForeground("labelText", this);
     }
     private void cargarConfiguracion(){
         setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));

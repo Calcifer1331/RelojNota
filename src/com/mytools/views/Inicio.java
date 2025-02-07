@@ -1,26 +1,29 @@
 package com.mytools.views;
 
-import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.mytools.ilib.Dashboard;
-import static com.mytools.ilib.Dashboard.alarma;
 import com.mytools.swings.JComponents.BotonColor;
+import com.mytools.swings.JComponents.BotonIcono;
+import com.mytools.swings.JComponents.tree.TreeNode;
 import com.mytools.utils.Alarma;
 import com.mytools.utils.Alarma.AlarmaListener;
 import com.mytools.utils.Timbre;
-import java.awt.Color;
-import java.io.BufferedReader;
+import java.awt.Image;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.tree.TreePath;
 
 public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre.TimbreListener {
 
@@ -31,70 +34,78 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
     public void setTree(com.mytools.swings.JComponents.tree.Tree tree) {
         this.tree = tree;
     }
-
     Dashboard dashboard;
     ConfigAlarm configAlarm;
-
     private Alarma alarma;
     private Timer timer;
     private boolean alarmaActiva;
     String[] imagenes = {
-        "resource/IconoReloj/relojAlarma-abajo.svg",
-        "resource/IconoReloj/relojAlarma-abajo.svg",
-        "resource/IconoReloj/relojAlarma-abajo.svg",
-    };
+        "/resource/IconoReloj/relojAlarma-abajo.png",
+        "/resource/IconoReloj/relojAlarma-izquierda.png",
+        "/resource/IconoReloj/relojAlarma-derecha.png",};
     private BotonColor botonColor = new BotonColor();
 
     public Inicio(Alarma alarma, Dashboard dashboard) {
         initComponents();
         this.alarma = alarma;
         this.dashboard = dashboard;
+
         init();
     }
 
     @Override
     public void cicloCompletado(boolean activo) {
         alarmaActiva = activo;
-        AlarmaDetener.setVisible(activo);
+        AlarmaDetener.setEnabled(activo);
         System.out.println(activo);
     }
 
     @Override
     public void cicloCompletado(int ciclo) {
-        RelojAlarma.setSvgImage(imagenes[ciclo % imagenes.length]);
+        RelojAlarma.setImage(imagenes[ciclo % imagenes.length]);
     }
 
     private void init() {
-
         timer = new Timer();
-        RelojAlarma.setSvgImage("resource/IconoReloj/reloj.svg");
         actualizarHora();
-
-        initComponents();
         getTree().setTextArea(textAreaNota);
         getTree().setLabelMensaje(mesajeDescripcyion);
         getTree().setLabelTitle(TitleNodo);
-        Nuevo.setIconSvg("resource/Plus.svg");
-        Eliminar.setIconSvg("resource/Delete.svg");
-        showMenu.setIcon(new FlatSVGIcon(menuTree.isVisible() ? "resource/chevron-left-solid.svg" : "resource/chevron-right-solid.svg", 13, 20));
-        AlarmaConfig.setIconSvg("resource/Support.svg");
-        AlarmaDetener.setIconSvg("resource/Rstop.svg");
-        AlarmaDetener.setVisible(false);
-
+        
+        Nuevo.setIcon(setImage("/resource/Plus.png", Nuevo));
+        Eliminar.setIcon(setImage("/resource/Delete.png", Eliminar));
+        URL imageUrl = getClass().getResource(menuTree.isVisible() ? "/resource/chevron-left-solid.png" : "/resource/chevron-right-solid.png");
+        ImageIcon icon = new ImageIcon(imageUrl);
+        Image scaledImage = icon.getImage().getScaledInstance(13, 20, Image.SCALE_SMOOTH);
+        showMenu.setIcon(new ImageIcon(scaledImage));
+        AlarmaConfig.setIcon(setImage("/resource/Support.png", AlarmaConfig));
+        AlarmaDetener.setIcon(setImage("/resource/Rstop.png", AlarmaDetener));
+        AlarmaDetener.setEnabled(false);
+        
         textAreaNota.getDocument().addDocumentListener(new DocumentListener() {
-            public void insertUpdate(DocumentEvent e) {
-                System.out.println("listener insert" + getTree().getSelectedFolder());
-                saveToFile(getTree().getSelectedFolder());
 
+            public void insertUpdate(DocumentEvent e) {
+                System.out.println(tree.getSelectedFolder().isFile());
+                if (tree.getSelectedFolder().isFile()) {
+                    System.out.println("listener insert" + getTree().getSelectedFolder());
+                    saveToFile(getTree().getSelectedFolder());
+
+                }else{
+                }
             }
 
             public void removeUpdate(DocumentEvent e) {
-                System.out.println("listener remove" + getTree().getSelectedFolder());
+                System.out.println(tree.getSelectedFolder().isFile());
+                if (tree.getSelectedFolder().isFile() ) {
+                    System.out.println("listener remove" + getTree().getSelectedFolder());
 
-                saveToFile(getTree().getSelectedFolder());
+                    saveToFile(getTree().getSelectedFolder());
+                }else{
+                }
             }
 
             public void changedUpdate(DocumentEvent e) {
+                System.out.println("aaa");
             }
         });
     }
@@ -111,22 +122,32 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
         }
     }
 
-    private String horaActual() {// retona hora actual con fomato
-        LocalTime horaActual = LocalTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss a");
-        String horaFormateada = horaActual.format(formatter);
-        return horaFormateada;
+    private String horaActual() {
+        Date date = new Date(); // Obtiene la fecha y hora actuales
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss a"); // Define el formato de la hora
+        return dateFormat.format(date); // Formatea la fecha y hora y la devuelve como String
     }
 
     private void saveToFile(File file) {
         String text = textAreaNota.getText();
         if (file.exists()) {
             if (file.isFile()) {
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8))) {
+                BufferedWriter writer = null;
+                try {
+                    writer = new BufferedWriter(new FileWriter(file));
                     writer.write(text);
                 } catch (IOException e) {
                     e.printStackTrace();
                     System.out.println("error");
+                } finally {
+                    if (writer != null) {
+                        try {
+                            writer.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            System.out.println("error al cerrar el escritor");
+                        }
+                    }
                 }
             } else {
                 System.out.println("no es file");
@@ -134,16 +155,59 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
         } else {
             System.out.println("no existe");
         }
-
     }
 
     private void toggleMenu() {
         // Cambiar la visibilidad del menú
         menuTree.setVisible(!menuTree.isVisible());
-        showMenu.setIcon(new FlatSVGIcon(menuTree.isVisible() ? "resource/chevron-left-solid.svg" : "resource/chevron-right-solid.svg", 13, 20));
+        URL imageUrl = getClass().getResource(menuTree.isVisible() ? "/resource/chevron-left-solid.png" : "/resource/chevron-right-solid.png");
+        ImageIcon icon = new ImageIcon(imageUrl);
+        Image scaledImage = icon.getImage().getScaledInstance(13, 20, Image.SCALE_SMOOTH);
+        showMenu.setIcon(new ImageIcon(scaledImage));
         revalidate();
         repaint();
     }
+
+    public ImageIcon setImage(String image, BotonIcono boton) {
+        URL imageUrl = getClass().getResource(image);
+        if (imageUrl != null) {
+            ImageIcon icon = new ImageIcon(imageUrl);
+
+            Image scaledImage = icon.getImage().getScaledInstance(35, 35, Image.SCALE_SMOOTH);
+
+            return new ImageIcon(scaledImage);
+        } else {
+            System.err.println("Error: La URL de la imagen es nula para " + image);
+            return null;
+        }
+    }
+    public void eliminarArchivoODirectorioSeleccionado() {
+    TreePath path = getTree().getSelectionPath();
+    if (path != null) {
+        TreeNode selectedNode = (TreeNode) path.getLastPathComponent();
+        String selectedPath = getTree().getPath(selectedNode);
+        File selectedFile = new File(selectedPath);
+        if (selectedFile.exists()) {
+            // Obtener el nodo raíz
+            TreeNode rootNode = (TreeNode) getTree().getModel().getRoot();
+            TreePath rootPath = new TreePath(rootNode);
+
+            // Seleccionar el nodo raíz antes de eliminar
+            getTree().setSelectionPath(rootPath);
+
+            if (selectedFile.delete()) {
+                getTree().actualizar(getTree().getFolder());
+                getTree().getLabelMensaje().setText("Se eliminó correctamente: " + selectedPath);
+            } else {
+                getTree().getLabelMensaje().setText("No se pudo eliminar: " + selectedPath);
+            }
+        } else {
+            getTree().getLabelMensaje().setText("El archivo o directorio seleccionado no existe.");
+        }
+    } else {
+        getTree().getLabelMensaje().setText("No se ha seleccionado ningún archivo o directorio.");
+    }
+}
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -176,8 +240,9 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
 
         labelTitle1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         labelTitle1.setText("  Hora Actual");
+        labelTitle1.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
 
-        HoraActual.setFont(new java.awt.Font("Cascadia Mono", 1, 36)); // NOI18N
+        HoraActual.setFont(new java.awt.Font("Cascadia Mono", 1, 36));
 
         javax.swing.GroupLayout PanelHoraActualkLayout = new javax.swing.GroupLayout(PanelHoraActualk);
         PanelHoraActualk.setLayout(PanelHoraActualkLayout);
@@ -186,8 +251,8 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelHoraActualkLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanelHoraActualkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(HoraActual, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelTitle1, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
+                    .addComponent(HoraActual, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
+                    .addComponent(labelTitle1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         PanelHoraActualkLayout.setVerticalGroup(
@@ -202,6 +267,7 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
 
         labelTitle2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         labelTitle2.setText("  Tiempo Restante");
+        labelTitle2.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
 
         HoraRestante.setFont(new java.awt.Font("Cascadia Mono", 1, 36)); // NOI18N
 
@@ -224,7 +290,7 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
             .addGroup(PanelHoraRestanteLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanelHoraRestanteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(HoraRestante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(HoraRestante, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
                     .addGroup(PanelHoraRestanteLayout.createSequentialGroup()
                         .addComponent(labelTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -244,7 +310,7 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
                     .addComponent(labelTitle2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(HoraRestante, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panelDegradado1Layout = new javax.swing.GroupLayout(panelDegradado1);
@@ -254,7 +320,7 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
             .addGroup(panelDegradado1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelDegradado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(RelojAlarma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(RelojAlarma, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
                     .addGroup(panelDegradado1Layout.createSequentialGroup()
                         .addComponent(PanelHoraActualk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -265,16 +331,18 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
             panelDegradado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelDegradado1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelDegradado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(PanelHoraActualk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(PanelHoraRestante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelDegradado1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(PanelHoraRestante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PanelHoraActualk, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(RelojAlarma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(RelojAlarma, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         labelHeader1.setText("Notas");
+        labelHeader1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
 
+        tree.setBackground(new java.awt.Color(255, 0, 255));
         tree.setFont(new java.awt.Font("Segoe UI Semibold", 1, 1815)); // NOI18N
         scrollPanelTransparente1.setViewportView(tree);
 
@@ -296,20 +364,20 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
         menuTree.setLayout(menuTreeLayout);
         menuTreeLayout.setHorizontalGroup(
             menuTreeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(labelHeader1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(labelHeader1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuTreeLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(menuTreeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(scrollPanelTransparente1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(scrollPanelTransparente1, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
                     .addGroup(menuTreeLayout.createSequentialGroup()
                         .addComponent(Eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 181, Short.MAX_VALUE)
                         .addComponent(Nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(menuTreeLayout.createSequentialGroup()
                 .addGap(62, 62, 62)
                 .addComponent(mesajeDescripcyion, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
         menuTreeLayout.setVerticalGroup(
             menuTreeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -327,9 +395,13 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
 
         textAreaNota.setColumns(20);
         textAreaNota.setRows(5);
+        textAreaNota.setText("");
+        textAreaNota.setEnabled(false);
+        textAreaNota.setFont(new java.awt.Font("Segoe UI Semibold", 0, 19)); // NOI18N
         scrollPanel1.setViewportView(textAreaNota);
 
         TitleNodo.setText("Notas");
+        TitleNodo.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
 
         showMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -353,7 +425,7 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
                 .addComponent(showMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrollPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
+                    .addComponent(scrollPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(TitleNodo, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -365,30 +437,40 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panelDegradado1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(menuTree, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(TitleNodo, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE))
-            .addComponent(showMenu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(scrollPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE))
+            .addComponent(showMenu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+            .addComponent(menuTree, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
-        getTree().eliminarArchivoODirectorioSeleccionado();
+        eliminarArchivoODirectorioSeleccionado();
     }//GEN-LAST:event_EliminarActionPerformed
 
     private void NuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NuevoActionPerformed
+        if(getTree().getSelectionPath() != null){
+        if(getTree().getSelectedFolder().isDirectory()){
         addFileCarpet fileCarpet = new addFileCarpet(dashboard, getTree(), true);
         fileCarpet.setVisible(true);
+        }}
     }//GEN-LAST:event_NuevoActionPerformed
 
     private void showMenuMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showMenuMouseEntered
-        showMenu.setIcon(new FlatSVGIcon(menuTree.isVisible() ? "resource/chevron-left-solid-selected.svg" : "resource/chevron-right-solid-selected.svg", 13, 20));
+        URL imageUrl = getClass().getResource(menuTree.isVisible() ? "/resource/chevron-left-solid-selected.png" : "/resource/chevron-right-solid-selected.png");
+        ImageIcon icon = new ImageIcon(imageUrl);
+        Image scaledImage = icon.getImage().getScaledInstance(13, 20, Image.SCALE_SMOOTH);
+        showMenu.setIcon(new ImageIcon(scaledImage));
+
     }//GEN-LAST:event_showMenuMouseEntered
 
     private void showMenuMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showMenuMouseExited
-        showMenu.setIcon(new FlatSVGIcon(menuTree.isVisible() ? "resource/chevron-left-solid.svg" : "resource/chevron-right-solid.svg", 13, 20));
+        URL imageUrl = getClass().getResource(menuTree.isVisible() ? "/resource/chevron-left-solid.png" : "/resource/chevron-right-solid.png");
+        ImageIcon icon = new ImageIcon(imageUrl);
+        Image scaledImage = icon.getImage().getScaledInstance(13, 20, Image.SCALE_SMOOTH);
+        showMenu.setIcon(new ImageIcon(scaledImage));
     }//GEN-LAST:event_showMenuMouseExited
 
     private void showMenuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showMenuMousePressed
@@ -406,8 +488,6 @@ public class Inicio extends javax.swing.JPanel implements AlarmaListener, Timbre
             alarma.getTimbre().detener();
         }
     }//GEN-LAST:event_AlarmaDetenerActionPerformed
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.mytools.swings.JComponents.BotonIcono AlarmaConfig;
     private com.mytools.swings.JComponents.BotonIcono AlarmaDetener;
